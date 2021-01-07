@@ -9,7 +9,8 @@ import tkinter.messagebox
 import threading
 import sys
 
-
+import os
+import inspect
 
 class Geral(themed_tk.ThemedTk):
     def __init__(self, *args, **kwargs):
@@ -28,13 +29,13 @@ class Geral(themed_tk.ThemedTk):
         windows = tk.Menu(menu, tearoff=0, bg='white',activebackground='#50b66b')
         options = tk.Menu(menu, tearoff=0, bg='white',activebackground='#50b66b')
 
-        menu.add_cascade(menu=windows,underline=1,label="Sistemas")
+        menu.add_cascade(menu=windows,underline=1,label="Janelas")
         menu.add_cascade(menu=options,underline=1,label="Opções")
         
-        windows.add_command(label="Homologação",
-            command=lambda:threading.Thread(target=self.show_frame(Homologation),daemon=True).start())
-        windows.add_command(label="Desligados",
-            command=lambda:threading.Thread(target=self.show_frame(Shutdown),daemon=True).start())
+        windows.add_command(label="Whatsapp",
+            command=lambda:threading.Thread(target=self.show_frame(Whatsapp),daemon=True).start())
+        windows.add_command(label="Ajuda",
+            command=lambda:threading.Thread(target=self.show_frame(Ajuda),daemon=True).start())
 
         options.add_command(label="Sair",
             command=lambda:threading.Thread(target=self.quit,daemon=True).start())
@@ -43,15 +44,18 @@ class Geral(themed_tk.ThemedTk):
 
         themed_tk.ThemedTk.config(self, menu=menu)
 
-        for Frame in (Homologation, Shutdown):
-            frame = Frame(container, self)
-            self.frames[Frame] = frame
+        for Frame, geometry, state in zip((Whatsapp, Ajuda), ('700x600+0+0', '700x600+0+0'), ('normal', 'normal')):
+            frame = Frame(parent=container, controller=self)
+            self.frames[Frame] = (frame, geometry, state)
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame(Homologation)
+        self.show_frame(Whatsapp)
 
     def show_frame(self, cont):
-        frame = self.frames[cont]
+        frame, geometry, state = self.frames[cont]
+        self.update_idletasks()
+        self.geometry(geometry)
+        self.state(state)
         frame.tkraise()
 
     def onexit(self):
@@ -63,7 +67,7 @@ class Geral(themed_tk.ThemedTk):
 '''
         tkinter.messagebox.showinfo("Ajuda",text)
 
-class Shutdown(ttk.Frame):   
+class Ajuda(ttk.Frame):   
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.place(relheight=1, relwidth=1)
@@ -71,7 +75,7 @@ class Shutdown(ttk.Frame):
         font.nametofont("TkTextFont").configure(size=12)
         font.nametofont("TkDefaultFont").configure(size=12)
 
-class Homologation(ttk.Frame):   
+class Whatsapp(ttk.Frame):   
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.place(relheight=1, relwidth=1)
@@ -114,11 +118,11 @@ def main():
     style.configure("eighth.Treeview", background ='#b4e61d', foreground ='black', font = "segoe 9 bold", relief = 'solid')
     style.configure("ninth.Treeview", background ='#e3d288', foreground ='black', font = "segoe 9 bold", relief = 'solid')   
 
-    app.title("Gestão de Desligados - Stefanini")
-    #current_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0])) + "\\"
-    #app.iconbitmap(current_folder + "imagens/logo.ico")
+    app.title("Automatização Mensagens - WhatsApp")
+    current_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0])) + "\\"
+    app.iconbitmap(current_folder + "Imagens/logo.ico")
     
-    app.state("zoomed")
+    #app.state("zoomed")
     app.mainloop()
 
 if __name__=="__main__":
