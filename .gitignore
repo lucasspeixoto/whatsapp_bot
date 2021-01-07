@@ -4,6 +4,10 @@ Notebooks
 
 Imagens
 
+.vscode
+
+venv
+
 *.*~
 
 .env
