@@ -85,8 +85,6 @@ class Whatsapp(ttk.Frame):
         font.nametofont("TkDefaultFont").configure(size=12)
         
      
-        
-
 def main():
     
     app = Geral()
