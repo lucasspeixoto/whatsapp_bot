@@ -12,6 +12,8 @@ import sys
 import os
 import inspect
 
+from whatsapp_login import whatsapp_login
+
 class Geral(themed_tk.ThemedTk):
     def __init__(self, *args, **kwargs):
         themed_tk.ThemedTk.__init__(self, *args, **kwargs)
@@ -86,14 +88,14 @@ class Whatsapp(ttk.Frame):
         
         #Definições Globais
         #Caminho Raiz
-        self.current_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0])) + "\\"
-        
+        self.path_folder = os.getcwd() + '/'
+
 
         #Variáveis Selenium
-        self.file_chromedriver = self.current_folder + 'Driver/chromedriver.exe'
+        self.path_chromedriver = self.path_folder + 'Driver/chromedriver.exe'
 
         #Diretório Download
-        self.down_path = os.path.expanduser(os.getenv("USERPROFILE")).replace("\\","/") + "/Downloads/"
+        self.path_down = os.path.expanduser(os.getenv("USERPROFILE")).replace("\\","/") + "/Downloads/"
 
         title_label = ttk.Label(self, text="Comunicação Cliente - WhatsApp", font='segoe 24 bold')
         title_label.place(relx=0.50,rely=0.04,relwidth=0.65,relheight=0.07, anchor='c')
@@ -104,7 +106,7 @@ class Whatsapp(ttk.Frame):
         log_bt = ttk.Button(self,text="Whatsapp Web", command = lambda: threading.Thread(target = self.f1, daemon = True).start())
         log_bt.place(relx=0.10,rely=0.12,relwidth=0.14,relheight=0.05, anchor='w')
 
-    #def f1(self): whatsapp_login(self)
+    def f1(self): whatsapp_login(self)
 
 
 def main():
