@@ -14,6 +14,7 @@ import inspect
 
 from whatsapp_login import whatsapp_login
 from load_contacts import load_contacts
+from select_contacts import select_contacts
 
 class Geral(themed_tk.ThemedTk):
     def __init__(self, *args, **kwargs):
@@ -138,9 +139,17 @@ class Whatsapp(ttk.Frame):
                     command = lambda: threading.Thread(target = self.f2, daemon = True).start())
         load_bt.place(relx=0.005,rely=0.955,relwidth=0.10,relheight=0.05, anchor='w')
 
+        #Botão para selecionar contatos
+        select_bt = ttk.Button(self,
+                    text="Selecionar", 
+                    command = lambda: threading.Thread(target = self.f3, daemon = True).start())
+        select_bt.place(relx=0.30,rely=0.955,relwidth=0.10,relheight=0.05, anchor='w')
+
     def f1(self): whatsapp_login(self)
 
     def f2(self): load_contacts(self)
+
+    def f3(self): select_contacts(self)
 
 def main():
     
