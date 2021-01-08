@@ -5,11 +5,18 @@ import tkinter as tk
 import tkinter.messagebox
 from tkinter import filedialog
 import pandas as pd
+import time
 
 def load_contacts(self):
-    contact_list_path = list(filedialog.askopenfilenames(initialdir = "/", 
-                                                         title = "Selecionar PDF's"))[0]
-    
+
+    try:
+        contact_list_path = list(filedialog.askopenfilenames(initialdir = "/", 
+                                                            title = "Selecionar arquivo com lista de contatos."))[0]
+    except IndexError:
+        time.sleep(0.3)
+        tkinter.messagebox.showinfo("Status", "Nenhum arquivo selecionado")
+        return
+
     #Extensão
     ext = contact_list_path.split("/")[-1].split(".")[-1]
 
@@ -29,6 +36,6 @@ def load_contacts(self):
     else:
         tkinter.messagebox.showerror("ERRO", "Formato inválido, converter em .xlsx, .xls ou .txt.")
         return
-    
+
     #Popular Listbox
     self.listbox.insert(tk.END, *contacts)
