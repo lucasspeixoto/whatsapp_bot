@@ -4,6 +4,7 @@
 from selenium import webdriver 
 from selenium.webdriver.support.ui import WebDriverWait 
 
+import tkinter.messagebox
 
 def whatsapp_login(self):
 
@@ -17,5 +18,6 @@ def whatsapp_login(self):
     
     driver.maximize_window()
 
+    tkinter.messagebox.showinfo("Status", "QR Code Scanned")
 
     return
