@@ -1,6 +1,7 @@
 #-*- coding: utf_8 -*-
 #encoding: utf-8
 
+import tkinter as tk
 import tkinter.messagebox
 from tkinter import filedialog
 import pandas as pd
@@ -28,5 +29,6 @@ def load_contacts(self):
     else:
         tkinter.messagebox.showerror("ERRO", "Formato inválido, converter em .xlsx, .xls ou .txt.")
         return
-
-    return
+    
+    #Popular Listbox
+    self.listbox.insert(tk.END, *contacts)
