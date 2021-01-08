@@ -9,12 +9,14 @@ import time
 
 def load_contacts(self):
 
+    #Verificação Se ao menos um item foi selecionado.
     try:
-        contact_list_path = list(filedialog.askopenfilenames(initialdir = "/", 
-                                                            title = "Selecionar arquivo com lista de contatos."))[0]
+        contact_list_path = list(filedialog.askopenfilenames(
+                            initialdir = "/", 
+                            title = "Selecionar arquivo com a lista de contatos."))[0]
     except IndexError:
         time.sleep(0.3)
-        tkinter.messagebox.showinfo("Status", "Nenhum arquivo selecionado")
+        tkinter.messagebox.showinfo("Status", "Nenhum arquivo selecionado.")
         return
 
     #Extensão
@@ -39,3 +41,5 @@ def load_contacts(self):
 
     #Popular Listbox
     self.listbox.insert(tk.END, *contacts)
+
+    return
