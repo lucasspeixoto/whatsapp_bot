@@ -26,8 +26,8 @@ class Geral(themed_tk.ThemedTk):
 
         menu = tk.Menu(container)
         
-        windows = tk.Menu(menu, tearoff=0, bg='white',activebackground='#50b66b')
-        options = tk.Menu(menu, tearoff=0, bg='white',activebackground='#50b66b')
+        windows = tk.Menu(menu, tearoff=0, bg='white',activebackground='#4fc65a')
+        options = tk.Menu(menu, tearoff=0, bg='white',activebackground='#4fc65a')
 
         menu.add_cascade(menu=windows,underline=1,label="Janelas")
         menu.add_cascade(menu=options,underline=1,label="Opções")
@@ -44,7 +44,7 @@ class Geral(themed_tk.ThemedTk):
 
         themed_tk.ThemedTk.config(self, menu=menu)
 
-        for Frame, geometry, state in zip((Whatsapp, Ajuda), ('700x600+0+0', '700x600+0+0'), ('normal', 'normal')):
+        for Frame, geometry, state in zip((Whatsapp, Ajuda), ('850x600+0+0', '850x600+0+0'), ('normal', 'normal')):
             frame = Frame(parent=container, controller=self)
             self.frames[Frame] = (frame, geometry, state)
             frame.grid(row=0, column=0, sticky="nsew")
@@ -84,7 +84,29 @@ class Whatsapp(ttk.Frame):
         font.nametofont("TkTextFont").configure(size=12)
         font.nametofont("TkDefaultFont").configure(size=12)
         
-     
+        #Definições Globais
+        #Caminho Raiz
+        self.current_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0])) + "\\"
+        
+
+        #Variáveis Selenium
+        self.file_chromedriver = self.current_folder + 'Driver/chromedriver.exe'
+
+        #Diretório Download
+        self.down_path = os.path.expanduser(os.getenv("USERPROFILE")).replace("\\","/") + "/Downloads/"
+
+        title_label = ttk.Label(self, text="Comunicação Cliente - WhatsApp", font='segoe 24 bold')
+        title_label.place(relx=0.50,rely=0.04,relwidth=0.65,relheight=0.07, anchor='c')
+
+        log_label = ttk.Label(self, text="Logar", font='segoe 18')
+        log_label.place(relx=0.005,rely=0.12,relwidth=0.08,relheight=0.05, anchor='w')
+
+        log_bt = ttk.Button(self,text="Whatsapp Web", command = lambda: threading.Thread(target = self.f1, daemon = True).start())
+        log_bt.place(relx=0.10,rely=0.12,relwidth=0.14,relheight=0.05, anchor='w')
+
+    #def f1(self): whatsapp_login(self)
+
+
 def main():
     
     app = Geral()
