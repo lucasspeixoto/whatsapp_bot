@@ -15,6 +15,7 @@ import inspect
 from whatsapp_login import whatsapp_login
 from load_contacts import load_contacts
 from select_contacts import select_contacts
+from load_file import load_img_or_video, load_doc
 
 class Geral(themed_tk.ThemedTk):
     def __init__(self, *args, **kwargs):
@@ -122,7 +123,7 @@ class Whatsapp(ttk.Frame):
                         foreground='#000000',
                         font='segoe 10 bold',
                         selectmode='extended'
-                        )
+                            )
         self.listbox.place(relx=0.005,rely=0.57,relwidth=0.40,relheight=0.68, anchor='w')
         self.scrollbar_list_y = ttk.Scrollbar(self, orient="vertical")
         self.scrollbar_list_y.config(command=self.listbox.yview)
@@ -150,19 +151,42 @@ class Whatsapp(ttk.Frame):
         msg_label.place(relx=0.43,rely=0.12,relwidth=0.20,relheight=0.05, anchor='w')
 
         #Caixa de Mensagem
-        self.obs = tk.Text(self, fg="#2b39b5", bg="white", font = "-family {Segoe UI} -size 16")
+        self.obs = tk.Text(self, 
+                        fg="#2b39b5", 
+                        bg="white", 
+                        font = "-family {Segoe UI} -size 16"
+                            )
         self.obs.place(relx=0.43, rely=0.53, relwidth=0.55, relheight=0.75, anchor = 'w')
         self.scrollbar_obs_y = ttk.Scrollbar(self, orient="vertical")
         self.scrollbar_obs_y.config(command=self.obs.yview)
         self.scrollbar_obs_y.place(relx=0.97,rely=0.53, relwidth=0.015, relheight=0.75, anchor='w')
         self.obs.config(yscrollcommand=self.scrollbar_obs_y.set)
 
+        #Título Anexos
+        anexo_label = ttk.Label(self, text="Anexos", font='segoe 18 bold')
+        anexo_label.place(relx=0.43,rely=0.955,relwidth=0.20,relheight=0.05, anchor='w')
+
+        #Botão para carregar Imagem ou Video
+        img_or_video_bt = ttk.Button(self,
+                    text="Imagem", 
+                    command = lambda: threading.Thread(target = self.f4, daemon = True).start())
+        img_or_video_bt.place(relx=0.55,rely=0.955,relwidth=0.10,relheight=0.05, anchor='w')
+
+        #Botão para carregar Arquivo
+        file_bt = ttk.Button(self,
+                    text="Arquivo", 
+                    command = lambda: threading.Thread(target = self.f5, daemon = True).start())
+        file_bt.place(relx=0.67,rely=0.955,relwidth=0.10,relheight=0.05, anchor='w')
 
     def f1(self): whatsapp_login(self)
 
     def f2(self): load_contacts(self)
 
     def f3(self): select_contacts(self)
+
+    def f4(self): load_img_or_video(self)
+
+    def f5(self): load_doc(self)
 
 def main():
     
