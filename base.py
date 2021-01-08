@@ -98,8 +98,8 @@ class Whatsapp(ttk.Frame):
         self.path_down = os.path.expanduser(os.getenv("USERPROFILE")).replace("\\","/") + "/Downloads/"
 
         #Título
-        title_label = ttk.Label(self, text="Comunicação Cliente - WhatsApp", font='segoe 24 bold')
-        title_label.place(relx=0.50,rely=0.04,relwidth=0.65,relheight=0.07, anchor='c')
+        title_label = ttk.Label(self, text="Comunicação com Clientes - WhatsApp", font='segoe 24 bold')
+        title_label.place(relx=0.50,rely=0.04,relwidth=0.90,relheight=0.07, anchor='c')
 
         #Título Login
         log_label = ttk.Label(self, text="Logar", font='segoe 18 bold')
@@ -144,6 +144,19 @@ class Whatsapp(ttk.Frame):
                     text="Selecionar", 
                     command = lambda: threading.Thread(target = self.f3, daemon = True).start())
         select_bt.place(relx=0.30,rely=0.955,relwidth=0.10,relheight=0.05, anchor='w')
+
+        #Título mensagem
+        msg_label = ttk.Label(self, text="Mensagem", font='segoe 18 bold')
+        msg_label.place(relx=0.43,rely=0.12,relwidth=0.20,relheight=0.05, anchor='w')
+
+        #Caixa de Mensagem
+        self.obs = tk.Text(self, fg="#2b39b5", bg="white", font = "-family {Segoe UI} -size 16")
+        self.obs.place(relx=0.43, rely=0.53, relwidth=0.55, relheight=0.75, anchor = 'w')
+        self.scrollbar_obs_y = ttk.Scrollbar(self, orient="vertical")
+        self.scrollbar_obs_y.config(command=self.obs.yview)
+        self.scrollbar_obs_y.place(relx=0.97,rely=0.53, relwidth=0.015, relheight=0.75, anchor='w')
+        self.obs.config(yscrollcommand=self.scrollbar_obs_y.set)
+
 
     def f1(self): whatsapp_login(self)
 
