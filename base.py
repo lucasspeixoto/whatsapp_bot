@@ -97,14 +97,34 @@ class Whatsapp(ttk.Frame):
         #Diretório Download
         self.path_down = os.path.expanduser(os.getenv("USERPROFILE")).replace("\\","/") + "/Downloads/"
 
+        #Título
         title_label = ttk.Label(self, text="Comunicação Cliente - WhatsApp", font='segoe 24 bold')
         title_label.place(relx=0.50,rely=0.04,relwidth=0.65,relheight=0.07, anchor='c')
 
-        log_label = ttk.Label(self, text="Logar", font='segoe 18')
+        #Título Login
+        log_label = ttk.Label(self, text="Logar", font='segoe 18 bold')
         log_label.place(relx=0.005,rely=0.12,relwidth=0.08,relheight=0.05, anchor='w')
 
+        #Botão de Login no WhatsApp Web
         log_bt = ttk.Button(self,text="Whatsapp Web", command = lambda: threading.Thread(target = self.f1, daemon = True).start())
         log_bt.place(relx=0.10,rely=0.12,relwidth=0.14,relheight=0.05, anchor='w')
+
+        #Título Listbox
+        listbox_label = ttk.Label(self, text="Lista de Contatos", font='segoe 18 bold')
+        listbox_label.place(relx=0.005,rely=0.20,relwidth=0.25,relheight=0.05, anchor='w')
+
+        #Criação Listbox
+        self.listbox = tk.Listbox(self, background='#dcffd4',relief='solid',foreground='#000000',font='segoe 10 bold',selectmode='extended')
+        self.listbox.place(relx=0.005,rely=0.57,relwidth=0.40,relheight=0.68, anchor='w')
+        self.scrollbar_list_y = ttk.Scrollbar(self, orient="vertical")
+        self.scrollbar_list_y.config(command=self.listbox.yview)
+        self.scrollbar_list_y.place(relx=0.40,rely=0.57, relwidth=0.015, relheight=0.68, anchor='w')
+        self.listbox.config(yscrollcommand=self.scrollbar_list_y.set)
+        self.scrollbar_list_x = ttk.Scrollbar(self, orient="horizontal")
+        self.scrollbar_list_x.config(command=self.listbox.xview)
+        self.scrollbar_list_x.place(relx=0.005,rely=0.91, relwidth=0.40, relheight=0.020, anchor='w')
+        self.listbox.config(xscrollcommand=self.scrollbar_list_x.set)
+        
 
     def f1(self): whatsapp_login(self)
 
