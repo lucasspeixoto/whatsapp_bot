@@ -13,6 +13,7 @@ import os
 import inspect
 
 from whatsapp_login import whatsapp_login
+from load_contacts import load_contacts
 
 class Geral(themed_tk.ThemedTk):
     def __init__(self, *args, **kwargs):
@@ -82,14 +83,12 @@ class Whatsapp(ttk.Frame):
         super().__init__(parent)
         self.place(relheight=1, relwidth=1)
         
-
         font.nametofont("TkTextFont").configure(size=12)
         font.nametofont("TkDefaultFont").configure(size=12)
         
         #Definições Globais
         #Caminho Raiz
         self.path_folder = os.getcwd() + '/'
-
 
         #Variáveis Selenium
         self.path_chromedriver = self.path_folder + 'Driver/chromedriver.exe'
@@ -106,7 +105,9 @@ class Whatsapp(ttk.Frame):
         log_label.place(relx=0.005,rely=0.12,relwidth=0.08,relheight=0.05, anchor='w')
 
         #Botão de Login no WhatsApp Web
-        log_bt = ttk.Button(self,text="Whatsapp Web", command = lambda: threading.Thread(target = self.f1, daemon = True).start())
+        log_bt = ttk.Button(self,
+                    text="Whatsapp Web", 
+                    command = lambda: threading.Thread(target = self.f1, daemon = True).start())
         log_bt.place(relx=0.10,rely=0.12,relwidth=0.14,relheight=0.05, anchor='w')
 
         #Título Listbox
@@ -114,7 +115,13 @@ class Whatsapp(ttk.Frame):
         listbox_label.place(relx=0.005,rely=0.20,relwidth=0.25,relheight=0.05, anchor='w')
 
         #Criação Listbox
-        self.listbox = tk.Listbox(self, background='#dcffd4',relief='solid',foreground='#000000',font='segoe 10 bold',selectmode='extended')
+        self.listbox = tk.Listbox(self, 
+                        background='#dcffd4',
+                        relief='solid',
+                        foreground='#000000',
+                        font='segoe 10 bold',
+                        selectmode='extended'
+                        )
         self.listbox.place(relx=0.005,rely=0.57,relwidth=0.40,relheight=0.68, anchor='w')
         self.scrollbar_list_y = ttk.Scrollbar(self, orient="vertical")
         self.scrollbar_list_y.config(command=self.listbox.yview)
@@ -125,9 +132,15 @@ class Whatsapp(ttk.Frame):
         self.scrollbar_list_x.place(relx=0.005,rely=0.91, relwidth=0.40, relheight=0.020, anchor='w')
         self.listbox.config(xscrollcommand=self.scrollbar_list_x.set)
         
+        #Botão para carregar contatos
+        load_bt = ttk.Button(self,
+                    text="Carregar", 
+                    command = lambda: threading.Thread(target = self.f2, daemon = True).start())
+        load_bt.place(relx=0.005,rely=0.955,relwidth=0.10,relheight=0.05, anchor='w')
 
     def f1(self): whatsapp_login(self)
 
+    def f2(self): load_contacts(self)
 
 def main():
     
