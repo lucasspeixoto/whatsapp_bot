@@ -12,7 +12,6 @@ import tkinter.messagebox
 import time
 
 def whatsapp_login(self):
-    
 
     link = "https://web.whatsapp.com/"
 
@@ -20,7 +19,6 @@ def whatsapp_login(self):
     self.driver = webdriver.Chrome(executable_path=self.path_chromedriver) 
     try:
         self.driver.get(link)
-        time.sleep(2.5)
     except WebDriverException:
         self.driver.quit()
         tkinter.messagebox.showerror("ERRO", "Verificar Internet.")
@@ -40,7 +38,7 @@ def whatsapp_login(self):
             self.driver.quit()
             tkinter.messagebox.showerror("ERRO", "Tempo Expirado, logar novamente.")
             return
-
+    
+    time.sleep(0.5)
     tkinter.messagebox.showinfo("Status", "QR Code Scanned")
-
     return
