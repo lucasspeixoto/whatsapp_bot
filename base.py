@@ -12,10 +12,13 @@ import sys
 import os
 import inspect
 
+from PIL import Image, ImageTk
+
 from whatsapp_login import whatsapp_login
 from load_contacts import load_contacts
 from select_contacts import select_contacts
 from load_file import load_img_or_video, load_doc
+from send_message import send_message
 
 class Geral(themed_tk.ThemedTk):
     def __init__(self, *args, **kwargs):
@@ -100,7 +103,17 @@ class Whatsapp(ttk.Frame):
 
         #Título
         title_label = ttk.Label(self, text="Comunicação com Clientes - WhatsApp", font='segoe 24 bold')
-        title_label.place(relx=0.50,rely=0.04,relwidth=0.90,relheight=0.07, anchor='c')
+        title_label.place(relx=0.005,rely=0.04,relwidth=0.72,relheight=0.07, anchor='w')
+
+        '''
+        #Logo
+        whats_logo = self.path_folder + "Imagens/whats_logo.jpg"
+        img = Image.open(whats_logo, "r")
+        resized = img.resize((96,82), Image.ANTIALIAS)
+        logo = ImageTk.PhotoImage(resized)
+        display = ttk.Label(self, image=logo)
+        display.place(relx=0.95,rely=0.1,relwidth=0.15,relheight=0.15,anchor='c')
+        '''
 
         #Título Login
         log_label = ttk.Label(self, text="Logar", font='segoe 18 bold')
@@ -170,13 +183,23 @@ class Whatsapp(ttk.Frame):
         img_or_video_bt = ttk.Button(self,
                     text="Imagem", 
                     command = lambda: threading.Thread(target = self.f4, daemon = True).start())
-        img_or_video_bt.place(relx=0.55,rely=0.955,relwidth=0.10,relheight=0.05, anchor='w')
+        img_or_video_bt.place(relx=0.55,rely=0.955,relwidth=0.08,relheight=0.05, anchor='w')
 
         #Botão para carregar Arquivo
         file_bt = ttk.Button(self,
                     text="Arquivo", 
                     command = lambda: threading.Thread(target = self.f5, daemon = True).start())
-        file_bt.place(relx=0.67,rely=0.955,relwidth=0.10,relheight=0.05, anchor='w')
+        file_bt.place(relx=0.64,rely=0.955,relwidth=0.08,relheight=0.05, anchor='w')
+
+        #Botão para Enviar mensagens
+        send_bt = ttk.Button(self,
+                    text="Enviar", 
+                    command = lambda: threading.Thread(target = self.f6, daemon = True).start())
+        send_bt.place(relx=0.73,rely=0.955,relwidth=0.08,relheight=0.05, anchor='w')
+
+        #Barra de Progresso
+        self.progress_bar = ttk.Progressbar(self, length= 80, mode = 'indeterminate')
+        self.progress_bar.place(relx=0.82,rely=0.955,relwidth=0.15,relheight=0.05, anchor='w')
 
     def f1(self): whatsapp_login(self)
 
@@ -187,6 +210,8 @@ class Whatsapp(ttk.Frame):
     def f4(self): load_img_or_video(self)
 
     def f5(self): load_doc(self)
+
+    def f6(self): send_message(self)
 
 def main():
     
