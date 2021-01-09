@@ -12,8 +12,6 @@ import sys
 import os
 import inspect
 
-from PIL import Image, ImageTk
-
 from whatsapp_login import whatsapp_login
 from load_contacts import load_contacts
 from select_contacts import select_contacts
@@ -96,7 +94,7 @@ class Whatsapp(ttk.Frame):
         self.path_folder = os.getcwd() + '/'
 
         #Variáveis Selenium
-        self.path_chromedriver = self.path_folder + 'Driver/chromedriver.exe'
+        self.path_chromedriver = self.path_folder + 'drivers/chromedriver.exe'
 
         #Diretório Download
         self.path_down = os.path.expanduser(os.getenv("USERPROFILE")).replace("\\","/") + "/Downloads/"
@@ -236,7 +234,7 @@ def main():
 
     app.title("Automatização Mensagens - WhatsApp")
     current_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0])) + "\\"
-    app.iconbitmap(current_folder + "Imagens/logo.ico")
+    app.iconbitmap(current_folder + "images/logo.ico")
     
     #app.state("zoomed")
     app.mainloop()
