@@ -105,16 +105,6 @@ class Whatsapp(ttk.Frame):
         title_label = ttk.Label(self, text="Comunicação com Clientes - WhatsApp", font='segoe 24 bold')
         title_label.place(relx=0.005,rely=0.04,relwidth=0.72,relheight=0.07, anchor='w')
 
-        '''
-        #Logo
-        whats_logo = self.path_folder + "Imagens/whats_logo.jpg"
-        img = Image.open(whats_logo, "r")
-        resized = img.resize((96,82), Image.ANTIALIAS)
-        logo = ImageTk.PhotoImage(resized)
-        display = ttk.Label(self, image=logo)
-        display.place(relx=0.95,rely=0.1,relwidth=0.15,relheight=0.15,anchor='c')
-        '''
-
         #Título Login
         log_label = ttk.Label(self, text="Logar", font='segoe 18 bold')
         log_label.place(relx=0.005,rely=0.12,relwidth=0.08,relheight=0.05, anchor='w')
