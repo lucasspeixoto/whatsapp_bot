@@ -94,7 +94,7 @@ class Whatsapp(ttk.Frame):
         self.path_folder = os.getcwd() + '/'
 
         #Variáveis Selenium
-        self.path_chromedriver = self.path_folder + 'drivers/chromedriver.exe'
+        self.path_chromedriver = self.path_folder + 'driver/chromedriver.exe'
 
         #Diretório Download
         self.path_down = os.path.expanduser(os.getenv("USERPROFILE")).replace("\\","/") + "/Downloads/"
