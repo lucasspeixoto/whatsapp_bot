@@ -32,5 +32,7 @@ Em montagem
 ### Meta
 
 Lucas Peixoto - [linkedin](https://www.linkedin.com/in/lucassacramoni/)
+
 E-mail - lucas.sacramoni@yahoo.com
+
 Projeto - https://github.com/lucasspeixoto/whatsapp_bot.git
