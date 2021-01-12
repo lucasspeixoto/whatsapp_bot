@@ -9,6 +9,9 @@ import time
 
 def load_contacts(self):
 
+    #Limpar Contatos anteriores
+    self.listbox.delete('0','end')
+    
     #Verificação Se ao menos um item foi selecionado.
     try:
         contact_list_path = list(filedialog.askopenfilenames(
@@ -36,7 +39,8 @@ def load_contacts(self):
             contacts = [line.strip() for line in f]
             f.close()
     else:
-        tkinter.messagebox.showerror("ERRO", "Formato inválido, converter em .xlsx, .xls ou .txt.")
+        tkinter.messagebox.showerror("ERRO",
+         '''Formato inválido, converter em .xlsx, .xls ou .txt.''')
         return
 
     #Popular Listbox

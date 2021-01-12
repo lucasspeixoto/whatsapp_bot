@@ -100,8 +100,8 @@ class Whatsapp(ttk.Frame):
         self.path_down = os.path.expanduser(os.getenv("USERPROFILE")).replace("\\","/") + "/Downloads/"
 
         #Título
-        title_label = ttk.Label(self, text="Comunicação com Clientes - WhatsApp", font='segoe 24 bold')
-        title_label.place(relx=0.005,rely=0.04,relwidth=0.72,relheight=0.07, anchor='w')
+        title_label = ttk.Label(self, text="Automatização Envio de Mensagem - WhatsApp", font='segoe 24 bold')
+        title_label.place(relx=0.005,rely=0.04,relwidth=0.98,relheight=0.07, anchor='w')
 
         #Título Login
         log_label = ttk.Label(self, text="Logar", font='segoe 18 bold')
@@ -232,11 +232,9 @@ def main():
     style.configure("eighth.Treeview", background ='#b4e61d', foreground ='black', font = "segoe 9 bold", relief = 'solid')
     style.configure("ninth.Treeview", background ='#e3d288', foreground ='black', font = "segoe 9 bold", relief = 'solid')   
 
-    app.title("Automatização Mensagens - WhatsApp")
+    app.title("Whatsapp Bot")
     current_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0])) + "\\"
     app.iconbitmap(current_folder + "images/logo.ico")
-    
-    #app.state("zoomed")
     app.mainloop()
 
 if __name__=="__main__":
