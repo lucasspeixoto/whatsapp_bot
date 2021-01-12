@@ -147,22 +147,39 @@ class Whatsapp(ttk.Frame):
                     command = lambda: threading.Thread(target = self.f3, daemon = True).start())
         select_bt.place(relx=0.30,rely=0.955,relwidth=0.10,relheight=0.05, anchor='w')
 
-        #Título mensagem
-        msg_label = ttk.Label(self, text="Mensagem", font='segoe 18 bold')
-        msg_label.place(relx=0.43,rely=0.12,relwidth=0.20,relheight=0.05, anchor='w')
+        #Título mensagem de Texto
+        text_msg_label = ttk.Label(self, text="Mensagem de Texto", font='segoe 18 bold')
+        text_msg_label.place(relx=0.43,rely=0.10,relwidth=0.40,relheight=0.05, anchor='w')
 
-        #Caixa de Mensagem
-        self.obs = tk.Text(self, 
+        #Caixa de Mensagem de Texto
+        self.text_msg = tk.Text(self, 
                         fg="#2b39b5", 
                         bg="white", 
                         font = "-family {Segoe UI} -size 16"
                             )
-        self.obs.place(relx=0.43, rely=0.53, relwidth=0.55, relheight=0.75, anchor = 'w')
-        self.scrollbar_obs_y = ttk.Scrollbar(self, orient="vertical")
-        self.scrollbar_obs_y.config(command=self.obs.yview)
-        self.scrollbar_obs_y.place(relx=0.97,rely=0.53, relwidth=0.015, relheight=0.75, anchor='w')
-        self.obs.config(yscrollcommand=self.scrollbar_obs_y.set)
+        self.text_msg.place(relx=0.43, rely=0.31, relwidth=0.55, relheight=0.35, anchor = 'w')
+        self.scrollbar_text_msg_y = ttk.Scrollbar(self, orient="vertical")
+        self.scrollbar_text_msg_y.config(command=self.text_msg.yview)
+        self.scrollbar_text_msg_y.place(relx=0.97,rely=0.31, relwidth=0.015, relheight=0.35, anchor='w')
+        self.text_msg.config(yscrollcommand=self.scrollbar_text_msg_y.set)
 
+        
+        #Título mensagem de Texto
+        text_img_label = ttk.Label(self, text="Mensagem de Imagem", font='segoe 18 bold')
+        text_img_label.place(relx=0.43,rely=0.53,relwidth=0.40,relheight=0.05, anchor='w')
+
+        #Caixa de Mensagem da Imagem
+        self.text_img = tk.Text(self, 
+                        fg="#2b39b5", 
+                        bg="white", 
+                        font = "-family {Segoe UI} -size 16"
+                            )
+        self.text_img.place(relx=0.43, rely=0.74, relwidth=0.55, relheight=0.35, anchor = 'w')
+        self.scrollbar_text_img_y = ttk.Scrollbar(self, orient="vertical")
+        self.scrollbar_text_img_y.config(command=self.text_img.yview)
+        self.scrollbar_text_img_y.place(relx=0.97,rely=0.74, relwidth=0.015, relheight=0.35, anchor='w')
+        self.text_img.config(yscrollcommand=self.scrollbar_text_img_y.set)
+        
         #Título Anexos
         anexo_label = ttk.Label(self, text="Anexos", font='segoe 18 bold')
         anexo_label.place(relx=0.43,rely=0.955,relwidth=0.20,relheight=0.05, anchor='w')
@@ -179,7 +196,7 @@ class Whatsapp(ttk.Frame):
                     command = lambda: threading.Thread(target = self.f5, daemon = True).start())
         file_bt.place(relx=0.64,rely=0.955,relwidth=0.08,relheight=0.05, anchor='w')
 
-        #Botão para Enviar mensagens
+        #Botão para Enviar mensagens 
         send_bt = ttk.Button(self,
                     text="Enviar", 
                     command = lambda: threading.Thread(target = self.f6, daemon = True).start())

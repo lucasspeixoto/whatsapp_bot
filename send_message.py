@@ -1,8 +1,6 @@
 #-*- coding: utf_8 -*-
 #encoding: utf-8
 
-
-
 import tkinter as tk
 import tkinter.messagebox
 import time
@@ -14,7 +12,6 @@ from selenium.webdriver.common.keys import Keys
 
 def send_message(self):
     
-    
     #Verificação Se houve conexão
     try:
         self.driver.execute(Command.STATUS)
@@ -24,7 +21,7 @@ def send_message(self):
         return
     
     #Verificação se mensagem foi inserida
-    text = self.obs.get(1.0, "end-1c")
+    text = self.text_msg.get(1.0, "end-1c")
     if text == '':
         tkinter.messagebox.showerror("ERRO","Inserir Mensagem")
         return
@@ -54,7 +51,6 @@ def send_message(self):
         ActionChains(self.driver).send_keys(Keys.ENTER).perform()
 
         #Verificar Se há imagem/video
-        
 
         #Verificar Se há arquivo
 
