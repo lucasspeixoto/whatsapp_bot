@@ -16,24 +16,38 @@ def send_message(self):
     try:
         self.driver.execute(Command.STATUS)
         pass
-    except Exception as e:
+    except Exception:
         tkinter.messagebox.showerror("ERRO", "Navegador Fechado, realizar login.")
         return
-    
-    #Verificação se mensagem foi inserida
-    text = self.text_msg.get(1.0, "end-1c")
-    if text == '':
-        tkinter.messagebox.showerror("ERRO","Inserir Mensagem")
-        return
-    else:
-        pass
     
     #Buscar listagem de contatos selecionados
     contact_list = [self.listbox.get(contact) for contact in self.listbox.curselection()]
     if len(contact_list) < 1:
         tkinter.messagebox.showerror("ERRO","Selecione ao menos um contato")
         return
+
+    ''' 
+    Verificação se ao menos Mensagem de texto ou
+    Mensagem de Imagem + Imagem ou 
+    Arquivo foram selecionados
+    '''
+    text_msg = self.text_msg.get(1.0, "end-1c")
+    text_img = self.text_img.get(1.0, "end-1c")
+    if (text_msg == '') and (text_img == '') and (hasattr(self, 'file_path') == False):
+        tkinter.messagebox.showerror("ERRO","""Inserir Mensagem de Texto, \
+Mensagem de Imagem com anexo ou Arquivo.""")
+        return
+    else:
+        pass
     
+    #Verificar se imagem foi selecionada caso exista texto no campo 'Mensagem de Imagem'
+    if (text_img != '') and (hasattr(self, 'img_path') == False):
+        tkinter.messagebox.showerror("ERRO","""Selecionar Imagem para ser anexada junto \
+ao texto digitado.""")
+        return
+    else:
+        pass
+
     #Inicar loop nos contatos
     self.progress_bar.start(2)
     self.progress_bar.step(2)
