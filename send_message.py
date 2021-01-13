@@ -63,18 +63,59 @@ ao texto digitado.""")
         elem.send_keys(contact)
         time.sleep(0.5)
         ActionChains(self.driver).send_keys(Keys.ENTER).perform()
-
-        #Verificar Se há imagem/video
-
-        #Verificar Se há arquivo
-
-
+        time.sleep(1)
+        
         #Inserir Mensagem
-        input_xpath = '//*[@id="main"]/footer/div[1]/div[2]/div/div[2]'
-        found = self.driver.find_element_by_xpath(input_xpath)
-        time.sleep(0.5)
-        found.send_keys(text_msg + Keys.ENTER)
+        if text_msg != '':
+            input_xpath = '//*[@id="main"]/footer/div[1]/div[2]/div/div[2]'
+            found = self.driver.find_element_by_xpath(input_xpath)
+            time.sleep(0.5)
+            found.send_keys(text_msg + Keys.ENTER)
+        else:
+            pass
 
+        #Inserir imagem/video
+        if text_img != '':
+            #Inserir Imagem/Video
+            clipButton = self.driver.find_element_by_xpath('''//*[@id="main"]/footer/
+            div[1]/div[1]/div[2]/div/div/span''')
+            clipButton.click()
+            time.sleep(1)
+
+            mediaButton = self.driver.find_element_by_xpath('''//*[@id="main"]/footer/div[1]/div[1]/
+            div[2]/div/span/div/div/ul/li[1]/button/input''')
+            mediaButton.send_keys(self.img_path)
+            time.sleep(1)
+
+            messageField = self.driver.find_element_by_xpath('''//*[@id="app"]/div/div/div[2]/
+            div[2]/span/div/span/div/div/div[2]/div[1]/span/div/div[2]/
+            div/div[3]/div[1]/div[2]''')
+            messageField.send_keys(text_img)
+            time.sleep(1)
+
+            sendButton = self.driver.find_element_by_xpath('''//*[@id="app"]/div/div/div[2]/div[2]/span/
+            div/span/div/div/div[2]/span/div/div/span''')
+            sendButton.click()
+
+        else:
+            pass
+
+        #Inserir Arquivo
+        if hasattr(self, 'file_path') == True:
+            clipButton = self.driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/div/span')
+            clipButton.click()
+            time.sleep(1)
+
+            mediaButton = self.driver.find_element_by_xpath('''//*[@id="main"]/footer/div[1]/div[1]/
+            div[2]/div/span/div/div/ul/li[3]/button/input''')
+            mediaButton.send_keys(self.file_path)
+            time.sleep(1)
+
+            sendButton = self.driver.find_element_by_xpath('''//*[@id="app"]/div/div/div[2]/div[2]/span/
+            div/span/div/div/div[2]/span/div/div/span''')
+            sendButton.click()
+        else:
+            pass
 
     self.progress_bar.stop()
     tkinter.messagebox.showinfo("Finalizado" ,"Envio Finalizado")
