@@ -141,11 +141,6 @@ class Whatsapp(ttk.Frame):
                     command = lambda: threading.Thread(target = self.f2, daemon = True).start())
         load_bt.place(relx=0.005,rely=0.955,relwidth=0.10,relheight=0.05, anchor='w')
 
-        #Botão para selecionar contatos
-        select_bt = ttk.Button(self,
-                    text="Selecionar", 
-                    command = lambda: threading.Thread(target = self.f3, daemon = True).start())
-        select_bt.place(relx=0.30,rely=0.955,relwidth=0.10,relheight=0.05, anchor='w')
 
         #Título mensagem de Texto
         text_msg_label = ttk.Label(self, text="Mensagem de Texto", font='segoe 18 bold')
@@ -187,19 +182,19 @@ class Whatsapp(ttk.Frame):
         #Botão para carregar Imagem ou Video
         img_or_video_bt = ttk.Button(self,
                     text="Imagem", 
-                    command = lambda: threading.Thread(target = self.f4, daemon = True).start())
+                    command = lambda: threading.Thread(target = self.f3, daemon = True).start())
         img_or_video_bt.place(relx=0.55,rely=0.955,relwidth=0.08,relheight=0.05, anchor='w')
 
         #Botão para carregar Arquivo
         file_bt = ttk.Button(self,
                     text="Arquivo", 
-                    command = lambda: threading.Thread(target = self.f5, daemon = True).start())
+                    command = lambda: threading.Thread(target = self.f4, daemon = True).start())
         file_bt.place(relx=0.64,rely=0.955,relwidth=0.08,relheight=0.05, anchor='w')
 
         #Botão para Enviar mensagens 
         send_bt = ttk.Button(self,
                     text="Enviar", 
-                    command = lambda: threading.Thread(target = self.f6, daemon = True).start())
+                    command = lambda: threading.Thread(target = self.f5, daemon = True).start())
         send_bt.place(relx=0.73,rely=0.955,relwidth=0.08,relheight=0.05, anchor='w')
 
         #Barra de Progresso
@@ -210,13 +205,11 @@ class Whatsapp(ttk.Frame):
 
     def f2(self): load_contacts(self)
 
-    def f3(self): select_contacts(self)
+    def f3(self): load_img_or_video(self)
 
-    def f4(self): load_img_or_video(self)
+    def f4(self): load_doc(self)
 
-    def f5(self): load_doc(self)
-
-    def f6(self): send_message(self)
+    def f5(self): send_message(self)
 
 def main():
     

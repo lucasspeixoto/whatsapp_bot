@@ -12,8 +12,6 @@ def load_img_or_video(self):
         self.img_path = list(filedialog.askopenfilenames(
                             initialdir = "/", 
                             title = "Selecionar imagem"))[0]
-
-        print(self.img_path)
         return
     except IndexError:
         time.sleep(0.3)
@@ -26,9 +24,7 @@ def load_doc(self):
     try:
         self.file_path = list(filedialog.askopenfilenames(
                             initialdir = "/", 
-                            title = "Selecionar Arquivo"))[0]
-                            
-        print(self.file_path)     
+                            title = "Selecionar Arquivo"))[0]                     
         return
     except IndexError:
         time.sleep(0.3)
