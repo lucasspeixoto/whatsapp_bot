@@ -73,7 +73,7 @@ ao texto digitado.""")
         input_xpath = '//*[@id="main"]/footer/div[1]/div[2]/div/div[2]'
         found = self.driver.find_element_by_xpath(input_xpath)
         time.sleep(0.5)
-        found.send_keys(text + Keys.ENTER)
+        found.send_keys(text_msg + Keys.ENTER)
 
 
     self.progress_bar.stop()
