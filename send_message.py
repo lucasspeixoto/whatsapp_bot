@@ -47,6 +47,30 @@ ao texto digitado.""")
         return
     else:
         pass
+    
+    #Definição parâmetros da mensagem de confirmação
+    if text_msg == '':
+        text_msg = 'Nenhum'
+    if text_img == '':
+        text_img = 'Nenhum'
+
+    if hasattr(self, 'img_path') == False:
+        img_path = 'Nenhuma'
+    else:
+        img_path = self.img_path.split("/")[-1]
+
+    if hasattr(self, 'file_path') == False:
+        file_path = 'Nenhum'
+    else:
+        file_path = self.file_path.split("/")[-1]
+       
+    conf = tkinter.messagebox.askquestion("Resumo",f"""Mensagem de Texto: '{text_msg}'\
+\n\nMensagem de Imagem:  '{text_img}'\nImagem: {img_path}\n\nArquivo: {file_path}. \n\n\n
+Para Excluir um anexo clique em 'Resetar'.""")
+    if conf == 'yes':
+        pass
+    else:
+        return
 
     #Inicar loop nos contatos
     self.progress_bar.start(2)

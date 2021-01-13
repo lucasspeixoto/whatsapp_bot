@@ -14,7 +14,6 @@ import inspect
 
 from whatsapp_login import whatsapp_login
 from load_contacts import load_contacts
-from select_contacts import select_contacts
 from load_file import load_img_or_video, load_doc
 from send_message import send_message
 
