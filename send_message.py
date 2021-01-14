@@ -72,6 +72,8 @@ Para Excluir um anexo clique em 'Apagar'.""")
     self.progress_bar.step(2)
 
     for contact in contact_list:
+        contact = contact.split(" - ")[-1]
+        
         #Selecionar Campo de pesquisa de contato
         search_xpath ='//*[@id="side"]/div[1]/div/label/div/div[2]'
         elem = self.driver.find_element_by_xpath(search_xpath)
@@ -112,10 +114,12 @@ Para Excluir um anexo clique em 'Apagar'.""")
             messageField.send_keys(text_img)
             time.sleep(1)
 
+            ActionChains(self.driver).send_keys(Keys.ENTER).perform()
+            """
             sendButton = self.driver.find_element_by_xpath('''//*[@id="app"]/div/div/div[2]/div[2]/span/
             div/span/div/div/div[2]/span/div/div/span''')
             sendButton.click()
-
+            """
         else:
             pass
 
@@ -130,13 +134,16 @@ Para Excluir um anexo clique em 'Apagar'.""")
             mediaButton.send_keys(self.file_path)
             time.sleep(1)
 
-            sendButton = self.driver.find_element_by_xpath('''//*[@id="app"]/div/div/div[2]/div[2]/span/
-            div/span/div/div/div[2]/span/div/div''')
-            
+            ActionChains(self.driver).send_keys(Keys.ENTER).perform()
+
+            """
+            sendButton = self.driver.find_element_by_xpath('''/html/body/div[1]/div/div/div[2]/div[2]/span
+            /div/span/div/div/div[2]/span/div/div/span''')
             sendButton.click()
+            """
         else:
             pass
-
+        
     self.progress_bar.stop()
     tkinter.messagebox.showinfo("Finalizado" ,"Envio Finalizado")
     return
