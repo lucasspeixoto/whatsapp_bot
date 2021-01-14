@@ -16,7 +16,7 @@ from whatsapp_login import whatsapp_login
 from load_contacts import load_contacts
 from load_file import load_img_or_video, load_doc
 from send_message import send_message
-
+from clear_path import clear_img_path, clear_file_path
 class Geral(themed_tk.ThemedTk):
     def __init__(self, *args, **kwargs):
         themed_tk.ThemedTk.__init__(self, *args, **kwargs)
@@ -151,16 +151,16 @@ class Whatsapp(ttk.Frame):
                         bg="white", 
                         font = "-family {Segoe UI} -size 16"
                             )
-        self.text_msg.place(relx=0.43, rely=0.31, relwidth=0.55, relheight=0.35, anchor = 'w')
+        self.text_msg.place(relx=0.43, rely=0.29, relwidth=0.55, relheight=0.32, anchor = 'w')
         self.scrollbar_text_msg_y = ttk.Scrollbar(self, orient="vertical")
         self.scrollbar_text_msg_y.config(command=self.text_msg.yview)
-        self.scrollbar_text_msg_y.place(relx=0.97,rely=0.31, relwidth=0.015, relheight=0.35, anchor='w')
+        self.scrollbar_text_msg_y.place(relx=0.97,rely=0.29, relwidth=0.015, relheight=0.32, anchor='w')
         self.text_msg.config(yscrollcommand=self.scrollbar_text_msg_y.set)
 
         
         #Título mensagem de Texto
         text_img_label = ttk.Label(self, text="Mensagem de Imagem", font='segoe 18 bold')
-        text_img_label.place(relx=0.43,rely=0.53,relwidth=0.40,relheight=0.05, anchor='w')
+        text_img_label.place(relx=0.43,rely=0.47,relwidth=0.40,relheight=0.05, anchor='w')
 
         #Caixa de Mensagem da Imagem
         self.text_img = tk.Text(self, 
@@ -168,37 +168,52 @@ class Whatsapp(ttk.Frame):
                         bg="white", 
                         font = "-family {Segoe UI} -size 16"
                             )
-        self.text_img.place(relx=0.43, rely=0.74, relwidth=0.55, relheight=0.35, anchor = 'w')
+        self.text_img.place(relx=0.43, rely=0.66, relwidth=0.55, relheight=0.32, anchor = 'w')
         self.scrollbar_text_img_y = ttk.Scrollbar(self, orient="vertical")
         self.scrollbar_text_img_y.config(command=self.text_img.yview)
-        self.scrollbar_text_img_y.place(relx=0.97,rely=0.74, relwidth=0.015, relheight=0.35, anchor='w')
+        self.scrollbar_text_img_y.place(relx=0.97,rely=0.66, relwidth=0.015, relheight=0.32, anchor='w')
         self.text_img.config(yscrollcommand=self.scrollbar_text_img_y.set)
         
         #Título Anexos
         anexo_label = ttk.Label(self, text="Anexos", font='segoe 18 bold')
-        anexo_label.place(relx=0.43,rely=0.955,relwidth=0.20,relheight=0.05, anchor='w')
+        anexo_label.place(relx=0.43,rely=0.85,relwidth=0.20,relheight=0.05, anchor='w')
+
 
         #Botão para carregar Imagem ou Video
         img_or_video_bt = ttk.Button(self,
                     text="Imagem", 
                     command = lambda: threading.Thread(target = self.f3, daemon = True).start())
-        img_or_video_bt.place(relx=0.55,rely=0.955,relwidth=0.08,relheight=0.05, anchor='w')
-
+        img_or_video_bt.place(relx=0.55,rely=0.85,relwidth=0.08,relheight=0.05, anchor='w')
         #Botão para carregar Arquivo
         file_bt = ttk.Button(self,
                     text="Arquivo", 
                     command = lambda: threading.Thread(target = self.f4, daemon = True).start())
-        file_bt.place(relx=0.64,rely=0.955,relwidth=0.08,relheight=0.05, anchor='w')
+        file_bt.place(relx=0.64,rely=0.85,relwidth=0.08,relheight=0.05, anchor='w')
+
+
+
+        #Botão para Limpar diretório da Imagem ou Video
+        clear_img_or_video_bt = ttk.Button(self,
+                    text="Apagar", 
+                    command = lambda: threading.Thread(target = self.f5, daemon = True).start())
+        clear_img_or_video_bt.place(relx=0.55,rely=0.905,relwidth=0.08,relheight=0.05, anchor='w')
+        #Botão para carregar Arquivo
+        clear_file_or_video_bt = ttk.Button(self,
+                    text="Apagar", 
+                    command = lambda: threading.Thread(target = self.f6, daemon = True).start())
+        clear_file_or_video_bt.place(relx=0.64,rely=0.905,relwidth=0.08,relheight=0.05, anchor='w')
+
+
 
         #Botão para Enviar mensagens 
         send_bt = ttk.Button(self,
                     text="Enviar", 
-                    command = lambda: threading.Thread(target = self.f5, daemon = True).start())
-        send_bt.place(relx=0.73,rely=0.955,relwidth=0.08,relheight=0.05, anchor='w')
+                    command = lambda: threading.Thread(target = self.f7, daemon = True).start())
+        send_bt.place(relx=0.46,rely=0.97,relwidth=0.08,relheight=0.05, anchor='w')
 
         #Barra de Progresso
         self.progress_bar = ttk.Progressbar(self, length= 80, mode = 'indeterminate')
-        self.progress_bar.place(relx=0.82,rely=0.955,relwidth=0.15,relheight=0.05, anchor='w')
+        self.progress_bar.place(relx=0.55,rely=0.97,relwidth=0.44,relheight=0.05, anchor='w')
 
     def f1(self): whatsapp_login(self)
 
@@ -208,7 +223,13 @@ class Whatsapp(ttk.Frame):
 
     def f4(self): load_doc(self)
 
-    def f5(self): send_message(self)
+    def f5(self): clear_img_path(self)
+
+    def f6(self): clear_file_path(self)
+
+    def f7(self): send_message(self)
+
+
 
 def main():
     
