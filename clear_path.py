@@ -3,7 +3,11 @@
 
 
 def clear_img_path(self):
-    print("Limpar Imagem")
+    self.img_path = '-'
+    
+    return
 
 def clear_file_path(self):
-    print("Limpar Arquivo")
+    self.file_path = '-'
+    
+    return
