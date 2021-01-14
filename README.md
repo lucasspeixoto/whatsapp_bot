@@ -4,7 +4,7 @@
 > O sistema permite selecionar uma arquivo com vários contatos, que são carregados na tela, permitindo enviar em massa, mensagens de whatsapp para os contatos selecionados, através do login com QR code do whatsapp web. As mensagens a serem enviadas são inseridas no campo 'Mensagem' e os anexos inseridos com os botões 'Imagem' e 'Arquivo'.
 
 #### Interface
-![interface](images/layout3.png "Sistema")
+![interface](images/layout4.png "Sistema")
 
 ### Passos para disparo
 * Montar Lista
