@@ -12,6 +12,8 @@ import sys
 import os
 import inspect
 
+from PIL import ImageTk,Image
+
 from whatsapp_login import whatsapp_login
 from load_contacts import load_contacts
 from load_file import load_img_or_video, load_doc
@@ -74,17 +76,45 @@ class Geral(themed_tk.ThemedTk):
 '''
         tkinter.messagebox.showinfo("Ajuda",text)
 
+class BkgrFrame(tk.Frame):
+    def __init__(self, parent, file_path, width, height):
+        super(BkgrFrame, self).__init__(parent, borderwidth=0, highlightthickness=0)
+
+        self.canvas = tk.Canvas(self, width=width, height=height)
+        self.canvas.pack()
+
+        pil_img = Image.open(file_path)
+        self.img = ImageTk.PhotoImage(pil_img.resize((width, height), Image.ANTIALIAS))
+        self.bg = self.canvas.create_image(0, 0, anchor=tk.NW, image=self.img)
+
+    def add(self, widget, x, y):
+        canvas_window = self.canvas.create_window(x, y, anchor=tk.NW, window=widget)
+        return widget
+
 class Ajuda(ttk.Frame):   
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.place(relheight=1, relwidth=1)
         
+        
+        background_image=tk.PhotoImage("C:/Users/lspeixoto/Documents/Scripts/whatsapp_bot/images/back.jpg")
+        background_label = tk.Label(parent, image=background_image)
+        background_label.place(x=0, y=0, relwidth=1, relheight=1)
+        
         font.nametofont("TkTextFont").configure(size=12)
         font.nametofont("TkDefaultFont").configure(size=12)
+
+        IMAGE_PATH = 'C:/Users/lspeixoto/Documents/Scripts/whatsapp_bot/images/back.jpg'
+        WIDTH, HEIGTH = 850, 600
+        bkrgframe = BkgrFrame(self, IMAGE_PATH, WIDTH, HEIGTH)
+        bkrgframe.pack()
+
 
 class Whatsapp(ttk.Frame):   
     def __init__(self, parent, controller):
         super().__init__(parent)
+
+        
         self.place(relheight=1, relwidth=1)
         
         font.nametofont("TkTextFont").configure(size=12)
@@ -103,9 +133,12 @@ class Whatsapp(ttk.Frame):
         #Diretório Download
         self.path_down = os.path.expanduser(os.getenv("USERPROFILE")).replace("\\","/") + "/Downloads/"
 
+
+
         #Título
         title_label = ttk.Label(self, text="Automatização Envio de Mensagem - WhatsApp", font='segoe 24 bold')
         title_label.place(relx=0.005,rely=0.04,relwidth=0.98,relheight=0.07, anchor='w')
+
 
         #Título Login
         log_label = ttk.Label(self, text="Logar", font='segoe 18 bold')
@@ -123,10 +156,10 @@ class Whatsapp(ttk.Frame):
 
         #Criação Listbox
         self.listbox = tk.Listbox(self, 
-                        background='#dcffd4',
+                        background='#295e5f',
                         relief='solid',
-                        foreground='#000000',
-                        font='segoe 10 bold',
+                        foreground='white',
+                        font='segoe 12 bold',
                         selectmode='extended'
                             )
         self.listbox.place(relx=0.005,rely=0.57,relwidth=0.40,relheight=0.68, anchor='w')
@@ -275,7 +308,7 @@ def main():
 
     app.title("Whatsapp Bot")
     current_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0])) + "\\"
-    
+
     app.iconbitmap("/".join(current_folder.split("\\")[0:-2]) + "/images/logo.ico")
     app.mainloop()
 
