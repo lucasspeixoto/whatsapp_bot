@@ -1,6 +1,7 @@
 #-*- coding: utf_8 -*-
 #encoding: utf-8
 
+
 import tkinter.messagebox
 import time
 
@@ -19,12 +20,15 @@ def send_message(self):
         return
     
     #Buscar listagem de contatos selecionados
-    contact_list = [self.listbox.get(contact) for contact in self.listbox.curselection()]
-    if len(contact_list) < 1:
-        tkinter.messagebox.showerror("ERRO","Selecione ao menos um contato")
-        return
+    contact_list = ''
+    if self.per.get() == 'some':
+        contact_list = [self.listbox.get(contact) for contact in self.listbox.curselection()]
+        if len(contact_list) < 1:
+            tkinter.messagebox.showerror("ERRO","Selecione ao menos um contato")
+            return
+    elif self.per.get() == 'all':
+        contact_list = self.contacts
 
-    
     #Verificação se ao menos Mensagem de texto ou Mensagem de Imagem + Imagem ou Arquivo foram selecionados
     text_msg = self.text_msg.get(1.0, "end-1c")
     text_img = self.text_img.get(1.0, "end-1c")

@@ -29,14 +29,14 @@ def load_contacts(self):
     #file_path = "/".join(contact_list_path.split("/")[0:-1]) + "/"
 
     #Verificação do formato do Arquivo e leitura dos dados com transformação em uma lista.
-    contacts = ''
+    self.contacts = ''
     if ext in ['xlsx', 'xls']:
-        contacts = pd.read_excel(contact_list_path)
-        columm_name = contacts.columns[0]
-        contacts = contacts[columm_name].tolist()
+        self.contacts = pd.read_excel(contact_list_path)
+        columm_name = self.contacts.columns[0]
+        self.contacts = self.contacts[columm_name].tolist()
     elif ext == 'txt':
         with open(contact_list_path, encoding='utf-8') as f:
-            contacts = [line.strip() for line in f]
+            self.contacts = [line.strip() for line in f]
             f.close()
     else:
         tkinter.messagebox.showerror("ERRO",
@@ -44,6 +44,6 @@ def load_contacts(self):
         return
 
     #Popular Listbox
-    self.listbox.insert(tk.END, *contacts)
+    self.listbox.insert(tk.END, *self.contacts)
 
     return

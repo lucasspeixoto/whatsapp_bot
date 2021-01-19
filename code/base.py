@@ -17,6 +17,8 @@ from load_contacts import load_contacts
 from load_file import load_img_or_video, load_doc
 from send_message import send_message
 from clear_path import clear_img_path, clear_file_path
+
+
 class Geral(themed_tk.ThemedTk):
     def __init__(self, *args, **kwargs):
         themed_tk.ThemedTk.__init__(self, *args, **kwargs)
@@ -87,13 +89,16 @@ class Whatsapp(ttk.Frame):
         
         font.nametofont("TkTextFont").configure(size=12)
         font.nametofont("TkDefaultFont").configure(size=12)
+
+        #Variáveis
+        self.per = tk.StringVar()
         
         #Definições Globais
         #Caminho Raiz
-        self.path_folder = os.getcwd() + '/'
-
+        self.path_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0])) + "\\"
+        
         #Variáveis Selenium
-        self.path_chromedriver = self.path_folder + 'driver/chromedriver.exe'
+        self.path_chromedriver = "/".join(self.path_folder.split("\\")[0:-2]) + '/driver/chromedriver.exe'
 
         #Diretório Download
         self.path_down = os.path.expanduser(os.getenv("USERPROFILE")).replace("\\","/") + "/Downloads/"
@@ -140,6 +145,13 @@ class Whatsapp(ttk.Frame):
                     command = lambda: threading.Thread(target = self.f2, daemon = True).start())
         load_bt.place(relx=0.005,rely=0.955,relwidth=0.10,relheight=0.05, anchor='w')
 
+
+        #Botões de seleção dos downloads
+        todos_rad = ttk.Radiobutton(self,variable=self.per,value="all",text="Todos",style='TRadiobutton')
+        todos_rad.place(relx=0.20,rely=0.955,relwidth=0.12,relheight=0.05, anchor='w')
+
+        alguns_rad = ttk.Radiobutton(self,variable=self.per,value="some",text="Selecionar",style='TRadiobutton')
+        alguns_rad.place(relx=0.28,rely=0.955,relwidth=0.12,relheight=0.05, anchor='w')
 
         #Título mensagem de Texto
         text_msg_label = ttk.Label(self, text="Mensagem de Texto", font='segoe 18 bold')
@@ -263,7 +275,8 @@ def main():
 
     app.title("Whatsapp Bot")
     current_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0])) + "\\"
-    app.iconbitmap(current_folder + "images/logo.ico")
+    
+    app.iconbitmap("/".join(current_folder.split("\\")[0:-2]) + "/images/logo.ico")
     app.mainloop()
 
 if __name__=="__main__":
