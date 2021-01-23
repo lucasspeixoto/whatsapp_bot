@@ -35,16 +35,16 @@ class Geral(themed_tk.ThemedTk):
 
         menu = tk.Menu(container)
         
-        windows = tk.Menu(menu, tearoff=0, bg='white',activebackground='#4fc65a')
-        options = tk.Menu(menu, tearoff=0, bg='white',activebackground='#4fc65a')
+        windows = tk.Menu(menu, tearoff=0, bg='white',activebackground='#163537')
+        options = tk.Menu(menu, tearoff=0, bg='white',activebackground='#163537')
 
         menu.add_cascade(menu=windows,underline=1,label="Janelas")
         menu.add_cascade(menu=options,underline=1,label="Opções")
         
         windows.add_command(label="Whatsapp",
             command=lambda:threading.Thread(target=self.show_frame(Whatsapp),daemon=True).start())
-        windows.add_command(label="Ajuda",
-            command=lambda:threading.Thread(target=self.show_frame(Ajuda),daemon=True).start())
+        windows.add_command(label="Help",
+            command=lambda:threading.Thread(target=self.show_frame(Help),daemon=True).start())
 
         options.add_command(label="Sair",
             command=lambda:threading.Thread(target=self.quit,daemon=True).start())
@@ -53,7 +53,7 @@ class Geral(themed_tk.ThemedTk):
 
         themed_tk.ThemedTk.config(self, menu=menu)
 
-        for Frame, geometry, state in zip((Whatsapp, Ajuda), ('850x600+0+0', '850x600+0+0'), ('normal', 'normal')):
+        for Frame, geometry, state in zip((Whatsapp, Help), ('850x600+0+0', '850x600+0+0'), ('normal', 'normal')):
             frame = Frame(parent=container, controller=self)
             self.frames[Frame] = (frame, geometry, state)
             frame.grid(row=0, column=0, sticky="nsew")
@@ -76,9 +76,72 @@ class Geral(themed_tk.ThemedTk):
 '''
         tkinter.messagebox.showinfo("Ajuda",text)
 
-class BkgrFrame(tk.Frame):
+class BkgrFrameWhats(tk.Frame):
     def __init__(self, parent, file_path, width, height):
-        super(BkgrFrame, self).__init__(parent, borderwidth=0, highlightthickness=0)
+        super(BkgrFrameWhats, self).__init__(parent, borderwidth=0, highlightthickness=0)
+
+        self.canvas = tk.Canvas(self, width=width, height=height)
+        self.canvas.pack()
+
+        pil_img = Image.open(file_path)
+        self.img = ImageTk.PhotoImage(pil_img.resize((width, height), Image.ANTIALIAS))
+        self.bg = self.canvas.create_image(0, 0, anchor=tk.NW, image=self.img)
+
+        #Título
+        self.canvas.create_text(5, 25, 
+                        text="Automatização Envio de Mensagem - WhatsApp", 
+                        fill="white", 
+                        anchor='w', 
+                        font=("arial bold", 28)
+                        )
+
+        #Login
+        self.canvas.create_text(5, 70, 
+                        text="Login", 
+                        fill="white", 
+                        anchor='w', 
+                        font=("arial bold", 20)
+                        )
+
+        #Lista de Contatos
+        self.canvas.create_text(5, 115, 
+                        text="Lista de Contatos", 
+                        fill="white", 
+                        anchor='w', 
+                        font=("arial bold", 20)
+                        )
+
+        #Caixa de Texto 1
+        self.canvas.create_text(365, 65, 
+                        text="Mensagem de Texto", 
+                        fill="white", 
+                        anchor='w', 
+                        font=("arial bold", 20)
+                        )
+
+        #Caixa de Texto 2
+        self.canvas.create_text(365, 285, 
+                        text="Mensagem de Imagem", 
+                        fill="white", 
+                        anchor='w', 
+                        font=("arial bold", 20)
+                        )
+        
+        #Anexo
+        self.canvas.create_text(365, 510, 
+                        text="Anexos", 
+                        fill="white", 
+                        anchor='w', 
+                        font=("arial bold", 20)
+                        )
+
+    def add(self, widget, x, y):
+        canvas_window = self.canvas.create_window(x, y, anchor=tk.NW, window=widget)
+        return widget
+
+class BkgrFrameHelp(tk.Frame):
+    def __init__(self, parent, file_path, width, height):
+        super(BkgrFrameHelp, self).__init__(parent, borderwidth=0, highlightthickness=0)
 
         self.canvas = tk.Canvas(self, width=width, height=height)
         self.canvas.pack()
@@ -91,22 +154,27 @@ class BkgrFrame(tk.Frame):
         canvas_window = self.canvas.create_window(x, y, anchor=tk.NW, window=widget)
         return widget
 
-class Ajuda(ttk.Frame):   
+class Help(ttk.Frame):   
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.place(relheight=1, relwidth=1)
+
+        #Definições Globais
+
+        #Caminho Executável
+        self.current_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0])) + "\\"
+
+        #Caminho Raiz
+        self.root = "/".join(self.current_folder.split("\\")[0:-2]) + "/"
         
-        
-        background_image=tk.PhotoImage("C:/Users/lspeixoto/Documents/Scripts/whatsapp_bot/images/back.jpg")
-        background_label = tk.Label(parent, image=background_image)
-        background_label.place(x=0, y=0, relwidth=1, relheight=1)
-        
+        #Fontes
         font.nametofont("TkTextFont").configure(size=12)
         font.nametofont("TkDefaultFont").configure(size=12)
 
-        IMAGE_PATH = 'C:/Users/lspeixoto/Documents/Scripts/whatsapp_bot/images/back.jpg'
+        #Plano de Fundo
+        IMAGE_PATH = self.root + "images/back.jpg"
         WIDTH, HEIGTH = 850, 600
-        bkrgframe = BkgrFrame(self, IMAGE_PATH, WIDTH, HEIGTH)
+        bkrgframe = BkgrFrameHelp(self, IMAGE_PATH, WIDTH, HEIGTH)
         bkrgframe.pack()
 
 
@@ -117,6 +185,7 @@ class Whatsapp(ttk.Frame):
         
         self.place(relheight=1, relwidth=1)
         
+        #Fontes
         font.nametofont("TkTextFont").configure(size=12)
         font.nametofont("TkDefaultFont").configure(size=12)
 
@@ -124,25 +193,18 @@ class Whatsapp(ttk.Frame):
         self.per = tk.StringVar()
         
         #Definições Globais
+
+        #Caminho Executável
+        self.current_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0])) + "\\"
+
         #Caminho Raiz
-        self.path_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0])) + "\\"
-        
-        #Variáveis Selenium
-        self.path_chromedriver = "/".join(self.path_folder.split("\\")[0:-2]) + '/driver/chromedriver.exe'
+        self.root = "/".join(self.current_folder.split("\\")[0:-2]) + "/"
 
-        #Diretório Download
-        self.path_down = os.path.expanduser(os.getenv("USERPROFILE")).replace("\\","/") + "/Downloads/"
-
-
-
-        #Título
-        title_label = ttk.Label(self, text="Automatização Envio de Mensagem - WhatsApp", font='segoe 24 bold')
-        title_label.place(relx=0.005,rely=0.04,relwidth=0.98,relheight=0.07, anchor='w')
-
-
-        #Título Login
-        log_label = ttk.Label(self, text="Logar", font='segoe 18 bold')
-        log_label.place(relx=0.005,rely=0.12,relwidth=0.08,relheight=0.05, anchor='w')
+        #Plano de Fundo
+        IMAGE_PATH = self.root + "images/back.jpg"
+        WIDTH, HEIGTH = 850, 600
+        bkrgframe = BkgrFrameWhats(self, IMAGE_PATH, WIDTH, HEIGTH)
+        bkrgframe.pack()
 
         #Botão de Login no WhatsApp Web
         log_bt = ttk.Button(self,
@@ -150,16 +212,12 @@ class Whatsapp(ttk.Frame):
                     command = lambda: threading.Thread(target = self.f1, daemon = True).start())
         log_bt.place(relx=0.10,rely=0.12,relwidth=0.14,relheight=0.05, anchor='w')
 
-        #Título Listbox
-        listbox_label = ttk.Label(self, text="Lista de Contatos", font='segoe 18 bold')
-        listbox_label.place(relx=0.005,rely=0.20,relwidth=0.25,relheight=0.05, anchor='w')
-
         #Criação Listbox
         self.listbox = tk.Listbox(self, 
-                        background='#295e5f',
+                        background='#163537',
                         relief='solid',
                         foreground='white',
-                        font='segoe 12 bold',
+                        font='segoe 14 bold',
                         selectmode='extended'
                             )
         self.listbox.place(relx=0.005,rely=0.57,relwidth=0.40,relheight=0.68, anchor='w')
@@ -178,22 +236,10 @@ class Whatsapp(ttk.Frame):
                     command = lambda: threading.Thread(target = self.f2, daemon = True).start())
         load_bt.place(relx=0.005,rely=0.955,relwidth=0.10,relheight=0.05, anchor='w')
 
-
-        #Botões de seleção dos downloads
-        todos_rad = ttk.Radiobutton(self,variable=self.per,value="all",text="Todos",style='TRadiobutton')
-        todos_rad.place(relx=0.20,rely=0.955,relwidth=0.12,relheight=0.05, anchor='w')
-
-        alguns_rad = ttk.Radiobutton(self,variable=self.per,value="some",text="Selecionar",style='TRadiobutton')
-        alguns_rad.place(relx=0.28,rely=0.955,relwidth=0.12,relheight=0.05, anchor='w')
-
-        #Título mensagem de Texto
-        text_msg_label = ttk.Label(self, text="Mensagem de Texto", font='segoe 18 bold')
-        text_msg_label.place(relx=0.43,rely=0.11,relwidth=0.40,relheight=0.05, anchor='w')
-
         #Caixa de Mensagem de Texto
         self.text_msg = tk.Text(self, 
-                        fg="#2b39b5", 
-                        bg="white", 
+                        fg="white", 
+                        bg="#163537", 
                         font = "-family {Segoe UI} -size 16"
                             )
         self.text_msg.place(relx=0.43, rely=0.29, relwidth=0.55, relheight=0.30, anchor = 'w')
@@ -202,15 +248,10 @@ class Whatsapp(ttk.Frame):
         self.scrollbar_text_msg_y.place(relx=0.97,rely=0.29, relwidth=0.015, relheight=0.30, anchor='w')
         self.text_msg.config(yscrollcommand=self.scrollbar_text_msg_y.set)
 
-        
-        #Título mensagem de Texto
-        text_img_label = ttk.Label(self, text="Mensagem de Imagem", font='segoe 18 bold')
-        text_img_label.place(relx=0.43,rely=0.48,relwidth=0.40,relheight=0.05, anchor='w')
-
         #Caixa de Mensagem da Imagem
         self.text_img = tk.Text(self, 
-                        fg="#2b39b5", 
-                        bg="white", 
+                        fg="white", 
+                        bg="#163537",
                         font = "-family {Segoe UI} -size 16"
                             )
         self.text_img.place(relx=0.43, rely=0.66, relwidth=0.55, relheight=0.30, anchor = 'w')
@@ -219,11 +260,6 @@ class Whatsapp(ttk.Frame):
         self.scrollbar_text_img_y.place(relx=0.97,rely=0.66, relwidth=0.015, relheight=0.30, anchor='w')
         self.text_img.config(yscrollcommand=self.scrollbar_text_img_y.set)
         
-        #Título Anexos
-        anexo_label = ttk.Label(self, text="Anexos", font='segoe 18 bold')
-        anexo_label.place(relx=0.43,rely=0.85,relwidth=0.20,relheight=0.05, anchor='w')
-
-
         #Botão para carregar Imagem ou Video
         img_or_video_bt = ttk.Button(self,
                     text="Imagem", 
@@ -235,8 +271,6 @@ class Whatsapp(ttk.Frame):
                     command = lambda: threading.Thread(target = self.f4, daemon = True).start())
         file_bt.place(relx=0.64,rely=0.85,relwidth=0.08,relheight=0.05, anchor='w')
 
-
-
         #Botão para Limpar diretório da Imagem ou Video
         clear_img_or_video_bt = ttk.Button(self,
                     text="Apagar", 
@@ -247,7 +281,6 @@ class Whatsapp(ttk.Frame):
                     text="Apagar", 
                     command = lambda: threading.Thread(target = self.f6, daemon = True).start())
         clear_file_or_video_bt.place(relx=0.64,rely=0.905,relwidth=0.08,relheight=0.05, anchor='w')
-
 
         #Botão para Enviar mensagens 
         send_bt = ttk.Button(self,
@@ -274,7 +307,6 @@ class Whatsapp(ttk.Frame):
     def f7(self): send_message(self)
 
 
-
 def main():
     
     app = Geral()
@@ -282,7 +314,7 @@ def main():
     style.theme_use('scidgreen')
     style.configure('.', background='white')
     style.configure('my.TFrame', background='white', foreground ='black', font = "segoe 9 bold")
-    style.configure('TRadiobutton', background="white", foreground='black', font = 'segoe 10 bold', justify='top', side='w')
+    style.configure('TRadiobutton', background="transparent", foreground='transparent', font = 'segoe 10 bold', justify='top', side='w')
     style.configure('TButton', background ='white', foreground ='black', font = 'segoe 10 bold')
     style.configure('down.TButton', background ='white', foreground ='green', font = 'segoe 18 bold', justify = 'c')
     style.configure('ok.TButton', background ='white', foreground ='green', font = 'segoe 16 bold', justify = 'c')
@@ -309,6 +341,7 @@ def main():
     app.title("Whatsapp Bot")
     current_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0])) + "\\"
 
+    app.wm_attributes('-alpha')
     app.iconbitmap("/".join(current_folder.split("\\")[0:-2]) + "/images/logo.ico")
     app.mainloop()
 

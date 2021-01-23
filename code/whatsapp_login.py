@@ -15,7 +15,7 @@ def whatsapp_login(self):
     link = "https://web.whatsapp.com/"
 
     #Verificação da Conexão
-    self.driver = webdriver.Chrome(executable_path=self.path_chromedriver) 
+    self.driver = webdriver.Chrome(executable_path=self.root + 'driver/chromedriver.exe') 
     try:
         self.driver.get(link)
     except WebDriverException:
