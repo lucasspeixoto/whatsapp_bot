@@ -1,12 +1,12 @@
 #-*- coding: utf_8 -*-
 #encoding: utf-8
 
-
 import tkinter.messagebox
 import time
 
 from selenium.webdriver.remote.command import Command
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys  
 
 def send_message(self):
@@ -19,16 +19,19 @@ def send_message(self):
         tkinter.messagebox.showerror("ERRO", "Navegador Fechado, realizar login.")
         return
     
-    #Buscar listagem de contatos selecionados
+    #Perguntar se vai enviar para contatos selecionados ou todos
     contact_list = ''
-    if self.per.get() == 'some':
+    ask = tkinter.messagebox.askquestion("Envio","Enviar para todos contatos da lista ?")
+    if ask == 'yes':
+        contact_list = self.contacts
+    else:
         contact_list = [self.listbox.get(contact) for contact in self.listbox.curselection()]
         if len(contact_list) < 1:
             tkinter.messagebox.showerror("ERRO","Selecione ao menos um contato")
             return
-    elif self.per.get() == 'all':
-        contact_list = self.contacts
-
+        else:
+            pass
+            
     #Verificação se ao menos Mensagem de texto ou Mensagem de Imagem + Imagem ou Arquivo foram selecionados
     text_msg = self.text_msg.get(1.0, "end-1c")
     text_img = self.text_img.get(1.0, "end-1c")
@@ -75,8 +78,10 @@ Para Excluir um anexo clique em 'Apagar'.""")
     self.progress_bar.start(2)
     self.progress_bar.step(2)
 
+    send, notsend = [], []
     for contact in contact_list:
         contact = contact.split(" - ")[-1]
+
         
         #Selecionar Campo de pesquisa de contato
         search_xpath ='//*[@id="side"]/div[1]/div/label/div/div[2]'
@@ -86,7 +91,22 @@ Para Excluir um anexo clique em 'Apagar'.""")
 
         #Digitar contato e Clicar 'ENTER'
         elem.send_keys(contact)
-        time.sleep(0.5)
+        
+        #Aguardar busca
+        time.sleep(4)
+
+        #Verificar Se contato foi encontrato
+        try:
+            not_found_msg_xpath = '/html/body/div[1]/div/div/div[3]/div/div[2]/div[1]/div/span'
+            elem = self.driver.find_element_by_xpath(not_found_msg_xpath)
+            notsend.append(contact)
+            continue
+        except NoSuchElementException:
+            send.append(contact)
+            pass
+
+        time.sleep(1)
+
         ActionChains(self.driver).send_keys(Keys.ENTER).perform()
         time.sleep(1)
         
@@ -98,6 +118,7 @@ Para Excluir um anexo clique em 'Apagar'.""")
             found.send_keys(text_msg + Keys.ENTER)
         else:
             pass
+        time.sleep(2)
 
         #Inserir imagem/video
         if (text_img != '') and (img_path != 'Nenhuma'):
@@ -119,35 +140,47 @@ Para Excluir um anexo clique em 'Apagar'.""")
             time.sleep(1)
 
             ActionChains(self.driver).send_keys(Keys.ENTER).perform()
-            """
-            sendButton = self.driver.find_element_by_xpath('''//*[@id="app"]/div/div/div[2]/div[2]/span/
-            div/span/div/div/div[2]/span/div/div/span''')
-            sendButton.click()
-            """
+            time.sleep(2)
+
+            #Caso Não clique
+            try:
+                enter_xpath = '/html/body/div[1]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div/span'
+                enterButton = self.driver.find_element_by_xpath(enter_xpath)
+                enterButton.click()
+                time.sleep(2)
+            except NoSuchElementException:
+                pass
         else:
             pass
 
         #Inserir Arquivo
         if file_path != 'Nenhum':
-            clipButton = self.driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/div/span')
+            clipButton = self.driver.find_element_by_xpath('''//*[@id="main"]/footer/div[1]/
+            div[1]/div[2]/div/div/span''')
             clipButton.click()
-            time.sleep(1)
+            time.sleep(5)
 
             mediaButton = self.driver.find_element_by_xpath('''//*[@id="main"]/footer/div[1]/div[1]/
             div[2]/div/span/div/div/ul/li[3]/button/input''')
             mediaButton.send_keys(self.file_path)
-            time.sleep(1)
+            time.sleep(5)
 
             ActionChains(self.driver).send_keys(Keys.ENTER).perform()
+            time.sleep(2)
 
-            """
-            sendButton = self.driver.find_element_by_xpath('''/html/body/div[1]/div/div/div[2]/div[2]/span
-            /div/span/div/div/div[2]/span/div/div/span''')
-            sendButton.click()
-            """
+            #Caso Não clique
+            try:
+                enter_xpath = '/html/body/div[1]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div/span'
+                enterButton = self.driver.find_element_by_xpath(enter_xpath)
+                enterButton.click()
+                time.sleep(2)
+            except NoSuchElementException:
+                pass   
         else:
             pass
+
         
+    print(f'Enviado: {send}\nNão enviado: {notsend}')
     self.progress_bar.stop()
     tkinter.messagebox.showinfo("Finalizado" ,"Envio Finalizado")
     return
