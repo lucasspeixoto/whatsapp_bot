@@ -87,9 +87,12 @@ Para Excluir um anexo clique em 'Apagar'.""")
         search_xpath ='//*[@id="side"]/div[1]/div/label/div/div[2]'
         elem = self.driver.find_element_by_xpath(search_xpath)
         elem.click()
+        elem.clear()
         time.sleep(2)
 
         #Digitar contato e Clicar 'ENTER'
+        elem.click()
+        elem.clear()
         elem.send_keys(contact)
         
         #Aguardar busca
