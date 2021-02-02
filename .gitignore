@@ -15,3 +15,11 @@ venv
 .env
 
 .idea
+
+.ipynb_checkpoints
+
+*.xlsx
+
+*S.csv
+
+*.ipynb
