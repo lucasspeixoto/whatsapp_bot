@@ -205,6 +205,18 @@ class Whatsapp(ttk.Frame):
         bkrgframe = BkgrFrameWhats(self, IMAGE_PATH, WIDTH, HEIGTH)
         bkrgframe.pack()
 
+        #User Check
+        users = []
+        with open(self.current_folder + 'check.txt', 'r',encoding='utf-8') as f: 
+            users = [line.strip() for line in f]
+            f.close()
+        user = os.path.expanduser(os.getenv("USERPROFILE")).replace("\\","/").split('/')[-1]
+        if user.lower() not in users:
+            tkinter.messagebox.showerror("ERRO", "Máquina não autorizada.")
+            sys.exit(0)
+        else:
+            pass
+
         #Botão de Login no WhatsApp Web
         log_bt = ttk.Button(self,
                     text="Whatsapp Web", 

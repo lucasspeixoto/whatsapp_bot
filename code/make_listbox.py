@@ -1,7 +1,5 @@
 #Criar Infos da listbox
 
-import tkinter.messagebox
-
 def create_box(base):
 
     #Formatação Nomes
