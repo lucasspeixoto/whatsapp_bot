@@ -126,7 +126,6 @@ class BkgrFrameWhats(tk.Frame):
                         anchor='w', 
                         font=("arial bold", 20)
                         )
-        
         #Anexo
         self.canvas.create_text(365, 510, 
                         text="Anexos", 
@@ -217,7 +216,7 @@ class Whatsapp(ttk.Frame):
                         background='#163537',
                         relief='solid',
                         foreground='white',
-                        font='segoe 14 bold',
+                        font='segoe 11',
                         selectmode='extended'
                             )
         self.listbox.place(relx=0.005,rely=0.57,relwidth=0.40,relheight=0.68, anchor='w')
