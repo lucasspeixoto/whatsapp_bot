@@ -30,4 +30,5 @@ def load_contacts(self):
     for i in range(0, len(contacts)):
         self.listbox.insert(i, contacts[i])
 
+    tkinter.messagebox.showinfo("Status", "Lista carregada")
     return
