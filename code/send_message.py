@@ -182,8 +182,6 @@ Para Excluir um anexo clique em 'Apagar'.""")
         else:
             pass
 
-        
-    print(f'Enviado: {send}\nNão enviado: {notsend}')
     self.progress_bar.stop()
     tkinter.messagebox.showinfo("Finalizado" ,"Envio Finalizado")
     return
