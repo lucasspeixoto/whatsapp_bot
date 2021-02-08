@@ -94,7 +94,7 @@ class BkgrFrameWhats(tk.Frame):
                         anchor='w', 
                         font=('arial bold', 28)
                         )
-
+        '''
         #Login
         self.canvas.create_text(5, 70, 
                         text='Login', 
@@ -102,6 +102,7 @@ class BkgrFrameWhats(tk.Frame):
                         anchor='w', 
                         font=('arial bold', 20)
                         )
+        '''
 
         #Lista de Contatos
         self.canvas.create_text(5, 115, 
@@ -218,10 +219,13 @@ class Whatsapp(ttk.Frame):
             pass
         
         #Botão de Login no WhatsApp Web
+        buttonLogin = Image.open(self.current_folder + 'login.png')
+        self.buttonLogin = ImageTk.PhotoImage(buttonLogin) 
         log_bt = ttk.Button(self,
+                    image = self.buttonLogin,
                     text='Whatsapp Web', 
                     command = lambda: threading.Thread(target = self.f1, daemon = True).start())
-        log_bt.place(relx=0.10,rely=0.12,relwidth=0.14,relheight=0.05, anchor='w')
+        log_bt.place(relx=0.01,rely=0.12,relwidth=0.14,relheight=0.05, anchor='w')
 
         #Criação Listbox
         self.listbox = tk.Listbox(self, 
