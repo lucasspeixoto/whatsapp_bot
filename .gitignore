@@ -16,4 +16,6 @@ venv
 
 .idea
 
-users.txt
+/code/users.txt
+
+/code/users.zip

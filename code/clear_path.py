@@ -3,11 +3,11 @@
 
 
 def clear_img_path(self):
-    self.img_path = '-'
+    self.img_path = ''
     
     return
 
 def clear_file_path(self):
-    self.file_path = '-'
+    self.file_path = ''
     
     return

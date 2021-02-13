@@ -11,6 +11,8 @@ import sys
 
 import os
 import inspect
+import zipfile
+import time
 
 from PIL import ImageTk,Image
 
@@ -172,17 +174,15 @@ class Help(ttk.Frame):
         font.nametofont('TkDefaultFont').configure(size=12)
 
         #Plano de Fundo
-        IMAGE_PATH = self.root + 'images/back.jpg'
-        WIDTH, HEIGTH = 850, 600
-        bkrgframe = BkgrFrameHelp(self, IMAGE_PATH, WIDTH, HEIGTH)
+        image_path = self.root + 'images/back.jpg'
+        width, heigth = 850, 600
+        bkrgframe = BkgrFrameHelp(self, image_path, width, heigth)
         bkrgframe.pack()
-
 
 class Whatsapp(ttk.Frame):   
     def __init__(self, parent, controller):
         super().__init__(parent)
 
-        
         self.place(relheight=1, relwidth=1)
         
         #Fontes
@@ -201,16 +201,24 @@ class Whatsapp(ttk.Frame):
         self.root = '/'.join(self.current_folder.split('\\')[0:-2]) + '/'
 
         #Plano de Fundo
-        IMAGE_PATH = self.root + 'images/back.jpg'
-        WIDTH, HEIGTH = 850, 600
-        bkrgframe = BkgrFrameWhats(self, IMAGE_PATH, WIDTH, HEIGTH)
+        image_path = self.root + 'images/back.jpg'
+        width, heigth = 850, 600
+        bkrgframe = BkgrFrameWhats(self, image_path, width, heigth)
         bkrgframe.pack()
 
         #User Check
-        users = []
-        with open(self.current_folder + 'users.txt', 'r',encoding='utf-8') as f: 
-            users = [line.strip() for line in f]
-            f.close()
+        try:
+            os.remove(self.current_folder + 'users.txt')
+        except FileNotFoundError:
+            pass
+        with zipfile.ZipFile(self.current_folder + 'users.zip', 'r') as zf:
+            zf.extractall(self.current_folder, pwd = b'3010199110021994')
+            with open(self.current_folder + 'users.txt') as f: 
+                users = [line.strip() for line in f]
+                f.close()
+                zf.close()
+                os.remove(self.current_folder + 'users.txt')
+
         user = os.path.expanduser(os.getenv('USERPROFILE')).replace('\\','/').split('/')[-1]
         if user.lower() not in users:
             tkinter.messagebox.showerror('ERRO', 'Máquina não autorizada.')
@@ -358,6 +366,7 @@ def main():
 
     app.wm_attributes('-alpha')
     app.iconbitmap('/'.join(current_folder.split('\\')[0:-2]) + '/images/logo.ico')
+    app.resizable(False, False)
     app.mainloop()
 
 if __name__=='__main__':
