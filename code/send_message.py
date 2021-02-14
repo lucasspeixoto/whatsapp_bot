@@ -10,7 +10,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys  
 
 def send_message(self):
-    """
+    
     #Verificação Se houve conexão
     try:
         self.driver.execute(Command.STATUS)
@@ -18,8 +18,7 @@ def send_message(self):
     except Exception:
         tkinter.messagebox.showerror("ERRO", "Navegador Fechado, realizar login.")
         return
-    """
-
+    
     #Perguntar se vai enviar para contatos selecionados ou todos
     contact_list = ''
     ask = tkinter.messagebox.askquestion("Envio","Enviar para todos contatos da lista ?")

@@ -6,7 +6,6 @@ from tkinter import filedialog
 import time
 
 def load_img_or_video(self):
-
     #Selecionar Imagem/Video
     try:
         self.img_path = list(filedialog.askopenfilenames(
