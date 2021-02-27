@@ -12,19 +12,24 @@ import time
 
 def whatsapp_login(self):
 
-    link = "https://web.whatsapp.com/"
+    link = 'https://web.whatsapp.com/'
 
+    #Verificação se Página não foi Fechada
+    try:
+        self.driver = webdriver.Chrome(executable_path=self.root + 'driver/chromedriver.exe') 
+    except WebDriverException:
+        tkinter.messagebox.showerror('ERRO', 'Página Fechada. Realizar Login novamente.')
+        return
     #Verificação da Conexão
-    self.driver = webdriver.Chrome(executable_path=self.root + 'driver/chromedriver.exe') 
     try:
         self.driver.get(link)
     except WebDriverException:
         self.driver.quit()
-        tkinter.messagebox.showerror("ERRO", "Verificar Internet.")
+        tkinter.messagebox.showerror('ERRO', 'Verificar Internet.')
         return
 
     #Aguardar Até QR Code ser Scaneado
-    search_xpath = '//*[@id="side"]/div[1]/div/label/div/div[2]'
+    search_xpath = '''//*[@id='side']/div[1]/div/label/div/div[2]'''
     try:
         elem = WebDriverWait(self.driver, 200).until(
         EC.presence_of_element_located((By.XPATH, search_xpath))
@@ -35,9 +40,9 @@ def whatsapp_login(self):
             self.driver.maximize_window() 
         except UnboundLocalError:
             self.driver.quit()
-            tkinter.messagebox.showerror("ERRO", "Tempo Expirado, logar novamente.")
+            tkinter.messagebox.showerror('ERRO', 'Tempo Expirado, logar novamente.')
             return
     
     time.sleep(0.5)
-    tkinter.messagebox.showinfo("Status", "QR Code Scanned")
+    tkinter.messagebox.showinfo('Status', 'QR Code Scanned')
     return

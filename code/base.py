@@ -10,9 +10,8 @@ import threading
 import sys
 
 import os
-import inspect
 import zipfile
-import time
+import webbrowser
 
 from PIL import ImageTk,Image
 
@@ -40,13 +39,13 @@ class Geral(themed_tk.ThemedTk):
         windows = tk.Menu(menu, tearoff=0, bg='white',activebackground='#163537')
         options = tk.Menu(menu, tearoff=0, bg='white',activebackground='#163537')
 
-        menu.add_cascade(menu=windows,underline=1,label='Janelas')
+        menu.add_cascade(menu=windows,underline=1,label='Início')
         menu.add_cascade(menu=options,underline=1,label='Opções')
         
         windows.add_command(label='Whatsapp',
             command=lambda:threading.Thread(target=self.show_frame(Whatsapp),daemon=True).start())
-        windows.add_command(label='Help',
-            command=lambda:threading.Thread(target=self.show_frame(Help),daemon=True).start())
+        windows.add_command(label='Ajuda',
+            command=lambda:threading.Thread(target=self.show_url, daemon=True).start())
 
         options.add_command(label='Sair',
             command=lambda:threading.Thread(target=self.quit,daemon=True).start())
@@ -55,10 +54,9 @@ class Geral(themed_tk.ThemedTk):
 
         themed_tk.ThemedTk.config(self, menu=menu)
 
-        for Frame, geometry, state in zip((Whatsapp, Help), ('850x600+0+0', '850x600+0+0'), ('normal', 'normal')):
-            frame = Frame(parent=container, controller=self)
-            self.frames[Frame] = (frame, geometry, state)
-            frame.grid(row=0, column=0, sticky='nsew')
+        frame = Whatsapp(parent=container, controller=self)
+        self.frames[Whatsapp] = (frame, '850x600+0+0', 'normal')
+        frame.grid(row=0, column=0, sticky='nsew')
 
         self.show_frame(Whatsapp)
 
@@ -68,14 +66,21 @@ class Geral(themed_tk.ThemedTk):
         self.geometry(geometry)
         self.state(state)
         frame.tkraise()
+    
+    def show_url():
+        url = '''https://www.figma.com/file/UogdkCEQURpOcCfYNZNHam/
+        WhatsApp-Bot?node-id=0%3A1
+        '''
+        webbrowser.open(url)
+        return
 
-    def onexit(self):
+    def onexit():
         sys.exit(0)
 
-    def show_help(self):
+    def show_help():
         text = '''Observações Importantes: \n
-➣ .
-'''
+        ➣ .
+        '''
         tkinter.messagebox.showinfo('Ajuda',text)
 
 class BkgrFrameWhats(tk.Frame):
@@ -96,15 +101,7 @@ class BkgrFrameWhats(tk.Frame):
                         anchor='w', 
                         font=('arial bold', 28)
                         )
-        '''
-        #Login
-        self.canvas.create_text(5, 70, 
-                        text='Login', 
-                        fill='white', 
-                        anchor='w', 
-                        font=('arial bold', 20)
-                        )
-        '''
+
 
         #Lista de Contatos
         self.canvas.create_text(5, 115, 
@@ -141,43 +138,6 @@ class BkgrFrameWhats(tk.Frame):
         canvas_window = self.canvas.create_window(x, y, anchor=tk.NW, window=widget)
         return widget
 
-class BkgrFrameHelp(tk.Frame):
-    def __init__(self, parent, file_path, width, height):
-        super(BkgrFrameHelp, self).__init__(parent, borderwidth=0, highlightthickness=0)
-
-        self.canvas = tk.Canvas(self, width=width, height=height)
-        self.canvas.pack()
-
-        pil_img = Image.open(file_path)
-        self.img = ImageTk.PhotoImage(pil_img.resize((width, height), Image.ANTIALIAS))
-        self.bg = self.canvas.create_image(0, 0, anchor=tk.NW, image=self.img)
-
-    def add(self, widget, x, y):
-        canvas_window = self.canvas.create_window(x, y, anchor=tk.NW, window=widget)
-        return widget
-
-class Help(ttk.Frame):   
-    def __init__(self, parent, controller):
-        super().__init__(parent)
-        self.place(relheight=1, relwidth=1)
-
-        #Definições Globais
-
-        #Caminho Executável
-        self.current_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0])) + '\\'
-
-        #Caminho Raiz
-        self.root = '/'.join(self.current_folder.split('\\')[0:-2]) + '/'
-        
-        #Fontes
-        font.nametofont('TkTextFont').configure(size=12)
-        font.nametofont('TkDefaultFont').configure(size=12)
-
-        #Plano de Fundo
-        image_path = self.root + 'images/back.jpg'
-        width, heigth = 850, 600
-        bkrgframe = BkgrFrameHelp(self, image_path, width, heigth)
-        bkrgframe.pack()
 
 class Whatsapp(ttk.Frame):   
     def __init__(self, parent, controller):
@@ -195,10 +155,10 @@ class Whatsapp(ttk.Frame):
         #Definições Globais
 
         #Caminho Executável
-        self.current_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0])) + '\\'
+        self.current_folder = os.path.dirname(os.path.abspath(__file__)) + '/'
 
         #Caminho Raiz
-        self.root = '/'.join(self.current_folder.split('\\')[0:-2]) + '/'
+        self.root = '/'.join(self.current_folder.split('\\')[0:-1]) + '/'
 
         #Plano de Fundo
         image_path = self.root + 'images/back.jpg'
@@ -362,10 +322,10 @@ def main():
     style.configure('ninth.Treeview', background ='#e3d288', foreground ='black', font = 'segoe 9 bold', relief = 'solid')   
 
     app.title('Whatsapp Bot')
-    current_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0])) + '\\'
+    current_folder = os.path.dirname(os.path.abspath(__file__)) + '/'
 
     app.wm_attributes('-alpha')
-    app.iconbitmap('/'.join(current_folder.split('\\')[0:-2]) + '/images/logo.ico')
+    app.iconbitmap('/'.join(current_folder.split('\\')[0:-1]) + '/images/logo.ico')
     app.resizable(False, False)
     app.mainloop()
 
