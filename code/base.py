@@ -173,12 +173,13 @@ class Whatsapp(ttk.Frame):
             pass
         with zipfile.ZipFile(self.current_folder + 'users.zip', 'r') as zf:
             zf.extractall(self.current_folder, pwd = b'3010199110021994')
-            with open(self.current_folder + 'users.txt') as f: 
+            with open(self.current_folder + 'users.txt', encoding='utf8') as f: 
                 users = [line.strip() for line in f]
                 f.close()
                 zf.close()
                 os.remove(self.current_folder + 'users.txt')
 
+        print(users)
         user = os.path.expanduser(os.getenv('USERPROFILE')).replace('\\','/').split('/')[-1]
         if user.lower() not in users:
             tkinter.messagebox.showerror('ERRO', 'Máquina não autorizada.')
