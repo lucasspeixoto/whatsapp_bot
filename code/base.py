@@ -67,10 +67,9 @@ class Geral(themed_tk.ThemedTk):
         self.state(state)
         frame.tkraise()
     
-    def show_url():
+    def show_url(self):
         url = '''https://www.figma.com/file/UogdkCEQURpOcCfYNZNHam/
-        WhatsApp-Bot?node-id=0%3A1
-        '''
+        WhatsApp-Bot?node-id=0%3A1'''
         webbrowser.open(url)
         return
 
