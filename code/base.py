@@ -15,11 +15,13 @@ import webbrowser
 
 from PIL import ImageTk, Image
 
-from whatsapp_login import whatsapp_login
-from load_contacts import load_contacts
-from load_file import load_img_or_video, load_doc
-from send_message import send_message
-from clear_path import clear_img_path, clear_file_path
+from robots.whatsapp_login import whatsapp_login
+from robots.send_message import send_message
+
+from contacts.load_contacts import load_contacts
+
+from files.load_file import load_img_or_video, load_doc
+from files.clear_path import clear_img_path, clear_file_path
 
 
 class Geral(themed_tk.ThemedTk):
@@ -100,7 +102,7 @@ class BkgrFrameWhats(tk.Frame):
 
         # Título
         self.canvas.create_text(5, 25,
-                                text='Automatização Envio de Mensagem - WhatsApp',
+                                text='WhatsApp Bot',
                                 fill='white',
                                 anchor='w',
                                 font=('arial bold', 28)
@@ -148,7 +150,8 @@ class Whatsapp(ttk.Frame):
         super().__init__(parent)
 
         self.place(relheight=1, relwidth=1)
-
+        
+    
         # Fontes
         font.nametofont('TkTextFont').configure(size=12)
         font.nametofont('TkDefaultFont').configure(size=12)
@@ -156,16 +159,22 @@ class Whatsapp(ttk.Frame):
         # Variáveis
         self.per = tk.StringVar()
 
-        # Definições Globais
-
         # Caminho Executável
         self.current_folder = os.path.dirname(os.path.abspath(__file__)) + '/'
 
         # Caminho Raiz
-        self.root = '/'.join(self.current_folder.split('\\')[0:-1]) + '/'
+        if sys.platform in ["linux", 'linux2']:
+            print('Sistema: LINUX')
+            self.root = os.getcwd() + '/whatsapp_bot/'
+        elif sys.platform == "win32":
+            print('Sistema: WINDOWS')
+            self.root = "/".join(self.current_folder.split("\\")
+                                 [0:-1]) + '/'  # Local
+        
+        print(self.root)
 
         # Plano de Fundo
-        image_path = self.root + 'images/back.jpg'
+        image_path = self.root + 'assets/imgs/back.jpg'
         width, heigth = 850, 600
         bkrgframe = BkgrFrameWhats(self, image_path, width, heigth)
         bkrgframe.pack()
@@ -193,13 +202,13 @@ class Whatsapp(ttk.Frame):
             pass
 
         # Botão de Login no WhatsApp Web
-        buttonLogin = Image.open(self.current_folder + 'login.png')
-        self.buttonLogin = ImageTk.PhotoImage(buttonLogin)
+        #buttonLogin = Image.open(self.root + 'assets/imgs/login.png')
+        #self.buttonLogin = ImageTk.PhotoImage(buttonLogin)
         log_bt = ttk.Button(self,
-                            image=self.buttonLogin,
-                            text='Whatsapp Web',
+                            text='Login',
+                            style='login.TButton',
                             command=lambda: threading.Thread(target=self.f1, daemon=True).start())
-        log_bt.place(relx=0.01, rely=0.12, relwidth=0.14,
+        log_bt.place(relx=0.01, rely=0.12, relwidth=0.10,
                      relheight=0.05, anchor='w')
 
         # Criação Listbox
@@ -220,7 +229,7 @@ class Whatsapp(ttk.Frame):
         self.scrollbar_list_x = ttk.Scrollbar(self, orient='horizontal')
         self.scrollbar_list_x.config(command=self.listbox.xview)
         self.scrollbar_list_x.place(
-            relx=0.005, rely=0.91, relwidth=0.40, relheight=0.020, anchor='w')
+            relx=0.005, rely=0.895, relwidth=0.395, relheight=0.025, anchor='w')
         self.listbox.config(xscrollcommand=self.scrollbar_list_x.set)
 
         # Botão para carregar contatos
@@ -322,8 +331,10 @@ def main():
                     foreground='black', font='segoe 9 bold')
     style.configure('TRadiobutton', background='transparent',
                     foreground='transparent', font='segoe 10 bold', justify='top', side='w')
+    style.configure('login.TButton', background='white',
+                    foreground='black', font='segoe 14 bold')
     style.configure('TButton', background='white',
-                    foreground='black', font='segoe 10 bold')
+                    foreground='black', font='segoe 11 bold')
     style.configure('down.TButton', background='white',
                     foreground='green', font='segoe 18 bold', justify='c')
     style.configure('ok.TButton', background='white',
@@ -370,7 +381,7 @@ def main():
 
     app.wm_attributes('-alpha')
     app.iconbitmap('/'.join(current_folder.split('\\')
-                   [0:-1]) + '/images/logo.ico')
+                   [0:-1]) + '/assets/imgs/logo.ico')
     app.resizable(False, False)
     app.mainloop()
 
