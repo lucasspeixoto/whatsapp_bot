@@ -1,4 +1,4 @@
-#-*- coding: utf_8 -*-
+# -*- coding: utf_8 -*-
 #encoding: utf-8
 
 import tkinter.messagebox
@@ -8,24 +8,25 @@ import time
 
 from make_listbox import create_box
 
+
 def load_contacts(self):
 
-    #Limpar Contatos anteriores
-    self.listbox.delete('0','end')
-    
-    #Verificação Se ao menos um item foi selecionado.
+    # Limpar Contatos anteriores
+    self.listbox.delete('0', 'end')
+
+    # Verificação Se ao menos um item foi selecionado.
     try:
         contact_list_path = list(filedialog.askopenfilenames(
-                            initialdir = "/", 
-                            title = "Selecionar arquivo com a lista de contatos."))[0]
+            initialdir="/",
+            title="Selecionar arquivo com a lista de contatos."))[0]
     except IndexError:
         time.sleep(0.3)
         tkinter.messagebox.showinfo("Status", "Nenhum arquivo selecionado.")
         return
 
-    #Leitura do arquivo
+    # Leitura do arquivo
     self.base = pd.read_excel(contact_list_path)
-    
+
     self.contacts = create_box(self.base)
     for i in range(0, len(self.contacts)):
         self.listbox.insert(i, self.contacts[i])

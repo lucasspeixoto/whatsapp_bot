@@ -1,16 +1,17 @@
-#-*- coding: utf_8 -*-
+# -*- coding: utf_8 -*-
 #encoding: utf-8
 
 import tkinter.messagebox
 from tkinter import filedialog
 import time
 
+
 def load_img_or_video(self):
-    #Selecionar Imagem/Video
+    # Selecionar Imagem/Video
     try:
         self.img_path = list(filedialog.askopenfilenames(
-                            initialdir = "/", 
-                            title = "Selecionar imagem"))[0]
+            initialdir="/",
+            title="Selecionar imagem"))[0]
         return
     except IndexError:
         time.sleep(0.3)
@@ -19,11 +20,11 @@ def load_img_or_video(self):
 
 
 def load_doc(self):
-    #Selecionar arquivo
+    # Selecionar arquivo
     try:
         self.file_path = list(filedialog.askopenfilenames(
-                            initialdir = "/", 
-                            title = "Selecionar Arquivo"))[0]                     
+            initialdir="/",
+            title="Selecionar Arquivo"))[0]
         return
     except IndexError:
         time.sleep(0.3)
