@@ -13,6 +13,7 @@ import time
 
 def whatsapp_login(self):
 
+    # url whatsapp web
     link = 'https://web.whatsapp.com/'
 
     # Verificação se Página não foi Fechada
@@ -23,6 +24,7 @@ def whatsapp_login(self):
         tkinter.messagebox.showerror(
             'ERRO', 'Página Fechada. Realizar Login novamente.')
         return
+    
     # Verificação da Conexão
     try:
         self.driver.get(link)

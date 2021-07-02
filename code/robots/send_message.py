@@ -44,9 +44,10 @@ def send_message(self):
     text_img = self.text_img.get(1.0, "end-1c")
 
     # Formatação dos textos
-    text_img = ' '.join(text_img.split('\n')).replace('  ', ' ')
+    text_msg = ' '.join(text_msg.split('\n')).replace('  ', ' ')
     text_img = ' '.join(text_img.split('\n')).replace('  ', ' ')
 
+    # Verificar se ao menos foi inserido texto ou anexo a ser enviado
     if (text_msg == '') \
             and (text_img == '') \
             and (hasattr(self, 'img_path') == False) \
@@ -138,6 +139,10 @@ Para Excluir um anexo clique em 'Apagar'.""")
             found = self.driver.find_element_by_xpath(input_xpath)
             time.sleep(0.5)
             found.send_keys(text_msg + Keys.ENTER)
+            ''' teste1 = 'p1'
+            teste2 = 'p2'
+            found.send_keys("Hello, " + teste1 + "."+ Keys.SHIFT + Keys.ENTER + teste2)
+            found.send_keys(Keys.ENTER) '''
         else:
             pass
         time.sleep(2)
@@ -152,15 +157,16 @@ Para Excluir um anexo clique em 'Apagar'.""")
 
             mediaButton = self.driver.find_element_by_xpath('''//*[@id="main"]/footer/div[1]/div[1]/
             div[2]/div/span/div/div/ul/li[1]/button/input''')
+
             mediaButton.send_keys(self.img_path)
-            time.sleep(1)
+            time.sleep(2)
 
             if (text_img != '-'):
-                messageField = self.driver.find_element_by_xpath('''//*[@id="app"]/div/div/div[2]/
-                div[2]/span/div/span/div/div/div[2]/div[1]/span/div/div[2]/
-                div/div[3]/div[1]/div[2]''')
+                messageField = self.driver.find_element_by_xpath('''//*[@id="app"]/div[1]/div[1]/div[2]/div[2]/span/
+                div[1]/span/div[1]/div/div[2]/div[1]/span/div/div[2]/div/div[3]/div[1]/div[2]''')
+
                 messageField.send_keys(text_img)
-                time.sleep(1)
+                time.sleep(2)
             else:
                 pass
 

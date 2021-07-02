@@ -150,8 +150,7 @@ class Whatsapp(ttk.Frame):
         super().__init__(parent)
 
         self.place(relheight=1, relwidth=1)
-        
-    
+
         # Fontes
         font.nametofont('TkTextFont').configure(size=12)
         font.nametofont('TkDefaultFont').configure(size=12)
@@ -170,8 +169,6 @@ class Whatsapp(ttk.Frame):
             print('Sistema: WINDOWS')
             self.root = "/".join(self.current_folder.split("\\")
                                  [0:-1]) + '/'  # Local
-        
-        print(self.root)
 
         # Plano de Fundo
         image_path = self.root + 'assets/imgs/back.jpg'
@@ -191,8 +188,6 @@ class Whatsapp(ttk.Frame):
                 f.close()
                 zf.close()
                 os.remove(self.current_folder + 'users.txt')
-
-        print(users)
         user = os.path.expanduser(os.getenv('USERPROFILE')).replace(
             '\\', '/').split('/')[-1]
         if user.lower() not in users:
@@ -202,8 +197,6 @@ class Whatsapp(ttk.Frame):
             pass
 
         # Botão de Login no WhatsApp Web
-        #buttonLogin = Image.open(self.root + 'assets/imgs/login.png')
-        #self.buttonLogin = ImageTk.PhotoImage(buttonLogin)
         log_bt = ttk.Button(self,
                             text='Login',
                             style='login.TButton',
@@ -286,6 +279,7 @@ class Whatsapp(ttk.Frame):
                                            command=lambda: threading.Thread(target=self.f5, daemon=True).start())
         clear_img_or_video_bt.place(
             relx=0.55, rely=0.905, relwidth=0.08, relheight=0.05, anchor='w')
+
         # Botão para carregar Arquivo
         clear_file_or_video_bt = ttk.Button(self,
                                             text='Apagar',
@@ -376,7 +370,7 @@ def main():
     style.configure('ninth.Treeview', background='#e3d288',
                     foreground='black', font='segoe 9 bold', relief='solid')
 
-    app.title('Whatsapp Bot')
+    app.title('Whatsapp Bot - v4.0.1')
     current_folder = os.path.dirname(os.path.abspath(__file__)) + '/'
 
     app.wm_attributes('-alpha')

@@ -27,6 +27,7 @@ def load_contacts(self):
     # Leitura do arquivo
     self.base = pd.read_excel(contact_list_path)
 
+    # Montagem da lista no listbox
     self.contacts = create_box(self.base)
     for i in range(0, len(self.contacts)):
         self.listbox.insert(i, self.contacts[i])
