@@ -1,5 +1,5 @@
 # -*- coding: utf_8 -*-
-#encoding: utf-8
+# encoding: utf-8
 
 import tkinter.messagebox
 import time
@@ -17,24 +17,24 @@ def send_message(self):
         self.driver.execute(Command.STATUS)
         pass
     except Exception:
-        tkinter.messagebox.showerror(
-            "ERRO", "Navegador Fechado, realizar login.")
+        tkinter.messagebox.showerror("ERRO", "Navegador Fechado, realizar login.")
         return
 
     # Perguntar se vai enviar para contatos selecionados ou todos
-    contact_list = ''
+    contact_list = ""
     ask = tkinter.messagebox.askquestion(
-        "Envio", "Enviar para todos contatos da lista ?")
-    if ask == 'yes':
+        "Envio", "Enviar para todos contatos da lista ?"
+    )
+    if ask == "yes":
         contact_list = self.contacts
 
     else:
-        contact_list = [self.listbox.get(contact)
-                        for contact in self.listbox.curselection()]
+        contact_list = [
+            self.listbox.get(contact) for contact in self.listbox.curselection()
+        ]
 
         if len(contact_list) < 1:
-            tkinter.messagebox.showerror(
-                "ERRO", "Selecione ao menos um contato")
+            tkinter.messagebox.showerror("ERRO", "Selecione ao menos um contato")
             return
         else:
             pass
@@ -44,53 +44,62 @@ def send_message(self):
     text_img = self.text_img.get(1.0, "end-1c")
 
     # Formatação dos textos
-    text_msg = ' '.join(text_msg.split('\n')).replace('  ', ' ')
-    text_img = ' '.join(text_img.split('\n')).replace('  ', ' ')
+    text_msg = " ".join(text_msg.split("\n")).replace("  ", " ")
+    text_img = " ".join(text_img.split("\n")).replace("  ", " ")
 
     # Verificar se ao menos foi inserido texto ou anexo a ser enviado
-    if (text_msg == '') \
-            and (text_img == '') \
-            and (hasattr(self, 'img_path') == False) \
-            and (hasattr(self, 'file_path') == False):
-        tkinter.messagebox.showerror(
-            'ERRO', 'Inserir Mensagem , Imagem ou Arquivo.')
+    if (
+        (text_msg == "")
+        and (text_img == "")
+        and (hasattr(self, "img_path") == False)
+        and (hasattr(self, "file_path") == False)
+    ):
+        tkinter.messagebox.showerror("ERRO", "Inserir Mensagem , Imagem ou Arquivo.")
         return
     else:
         pass
 
     # Verificar se imagem foi selecionada caso exista texto no campo 'Mensagem de Imagem'
-    if (text_img != '') and ((hasattr(self, 'img_path') == False) or (self.img_path == '')):
-        tkinter.messagebox.showerror("ERRO", """Selecionar Imagem para ser anexada junto \
-ao texto digitado.""")
+    if (text_img != "") and (
+        (hasattr(self, "img_path") == False) or (self.img_path == "")
+    ):
+        tkinter.messagebox.showerror(
+            "ERRO",
+            """Selecionar Imagem para ser anexada junto \
+ao texto digitado.""",
+        )
         return
     else:
         pass
 
     # Definição parâmetros da mensagem de confirmação
-    if text_msg == '':
-        msg = 'Nenhum'
+    if text_msg == "":
+        msg = "Nenhum"
     else:
         msg = text_msg
 
-    if text_img == '':
-        img = 'Nenhum'
+    if text_img == "":
+        img = "Nenhum"
     else:
         img = text_img
 
-    if (hasattr(self, 'img_path') == False or (self.img_path == '')):
-        img_path = 'Nenhuma'
+    if hasattr(self, "img_path") == False or (self.img_path == ""):
+        img_path = "Nenhuma"
     else:
         img_path = self.img_path.split("/")[-1]
 
-    if (hasattr(self, 'file_path') == False or (self.file_path == '')):
-        file_path = 'Nenhum'
+    if hasattr(self, "file_path") == False or (self.file_path == ""):
+        file_path = "Nenhum"
     else:
         file_path = self.file_path.split("/")[-1]
 
-    conf = tkinter.messagebox.askquestion("Enviar ?", f"""Mensagem de Texto: '{msg}'\
+    conf = tkinter.messagebox.askquestion(
+        "Enviar ?",
+        f"""Mensagem de Texto: '{msg}'\
 \n\nMensagem de Imagem:  '{img}'\nImagem: {img_path}\n\nArquivo: {file_path}. \n\n\n
-Para Excluir um anexo clique em 'Apagar'.""")
-    if conf == 'yes':
+Para Excluir um anexo clique em 'Apagar'.""",
+    )
+    if conf == "yes":
         pass
     else:
         return
@@ -120,7 +129,9 @@ Para Excluir um anexo clique em 'Apagar'.""")
 
         # Verificar Se contato foi encontrato
         try:
-            not_found_msg_xpath = '/html/body/div[1]/div/div/div[3]/div/div[2]/div[1]/div/span'
+            not_found_msg_xpath = (
+                "/html/body/div[1]/div/div/div[3]/div/div[2]/div[1]/div/span"
+            )
             elem = self.driver.find_element_by_xpath(not_found_msg_xpath)
             notsend.append(contact)
             continue
@@ -134,38 +145,53 @@ Para Excluir um anexo clique em 'Apagar'.""")
         time.sleep(1)
 
         # Inserir Mensagem
-        if text_msg != '':
-            input_xpath = '//*[@id="main"]/footer/div[1]/div[2]/div/div[2]'
+        if text_msg != "":
+            input_xpath = '//*[@id="main"]/footer/div[1]/div[2]/div/div[1]/div/div[2]'
             found = self.driver.find_element_by_xpath(input_xpath)
             time.sleep(0.5)
             found.send_keys(text_msg + Keys.ENTER)
-            ''' teste1 = 'p1'
+            """ teste1 = 'p1'
             teste2 = 'p2'
             found.send_keys("Hello, " + teste1 + "."+ Keys.SHIFT + Keys.ENTER + teste2)
-            found.send_keys(Keys.ENTER) '''
+            found.send_keys(Keys.ENTER) """
         else:
             pass
         time.sleep(2)
 
         # Inserir imagem/video
-        if (img_path != 'Nenhuma'):
+        if img_path != "Nenhuma":
             # Inserir Imagem/Video
-            clipButton = self.driver.find_element_by_xpath('''//*[@id="main"]/footer/
-            div[1]/div[1]/div[2]/div/div/span''')
+            clipButton = self.driver.find_element_by_xpath(
+                """//*[@id="main"]/footer/
+            div[1]/div[1]/div[2]/div/div/span"""
+            )
             clipButton.click()
             time.sleep(1)
 
-            mediaButton = self.driver.find_element_by_xpath('''//*[@id="main"]/footer/div[1]/div[1]/
-            div[2]/div/span/div/div/ul/li[1]/button/input''')
+            mediaButton = self.driver.find_element_by_xpath(
+                """//*[@id="main"]/footer/div[1]/div[1]/
+            div[2]/div/span/div/div/ul/li[1]/button/input"""
+            )
 
             mediaButton.send_keys(self.img_path)
             time.sleep(2)
 
-            if (text_img != '-'):
-                messageField = self.driver.find_element_by_xpath('''//*[@id="app"]/div[1]/div[1]/div[2]/div[2]/span/
-                div[1]/span/div[1]/div/div[2]/div[1]/span/div/div[2]/div/div[3]/div[1]/div[2]''')
+            if text_img != "-":
+                # Imagem
+                try:
+                    messageField = self.driver.find_element_by_xpath(
+                        """//*[@id="app"]/div[1]/div[1]/div[2]/div[2]/span/div[1]/span/
+                    div[1]/div/div[2]/div/div[1]/div[3]/div/div/div[2]/div[1]/div[2]"""
+                    )
+                    messageField.send_keys(text_img)
+                # Video
+                except NoSuchElementException:
+                    messageField = self.driver.find_element_by_xpath(
+                        """//*[@id="app"]/div[1]/div[1]/div[2]/div[2]/span/div[1]/span/
+                    div[1]/div/div[2]/div/div[1]/div[3]/div/div[2]/div[1]/div[2]"""
+                    )
+                    messageField.send_keys(text_img)
 
-                messageField.send_keys(text_img)
                 time.sleep(2)
             else:
                 pass
@@ -175,7 +201,7 @@ Para Excluir um anexo clique em 'Apagar'.""")
 
             # Caso Não clique
             try:
-                enter_xpath = '/html/body/div[1]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div/span'
+                enter_xpath = "/html/body/div[1]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div/span"
                 enterButton = self.driver.find_element_by_xpath(enter_xpath)
                 enterButton.click()
                 time.sleep(2)
@@ -185,14 +211,18 @@ Para Excluir um anexo clique em 'Apagar'.""")
             pass
 
         # Inserir Arquivo
-        if file_path != 'Nenhum':
-            clipButton = self.driver.find_element_by_xpath('''//*[@id="main"]/footer/div[1]/
-            div[1]/div[2]/div/div/span''')
+        if file_path != "Nenhum":
+            clipButton = self.driver.find_element_by_xpath(
+                """//*[@id="main"]/footer/div[1]/
+            div[1]/div[2]/div/div/span"""
+            )
             clipButton.click()
             time.sleep(3)
 
-            mediaButton = self.driver.find_element_by_xpath('''//*[@id="main"]/footer/div[1]/div[1]/
-            div[2]/div/span/div/div/ul/li[3]/button/input''')
+            mediaButton = self.driver.find_element_by_xpath(
+                """//*[@id="main"]/footer/div[1]/div[1]/
+            div[2]/div/span/div/div/ul/li[3]/button/input"""
+            )
             mediaButton.send_keys(self.file_path)
             time.sleep(3)
 
@@ -201,7 +231,8 @@ Para Excluir um anexo clique em 'Apagar'.""")
 
             # Caso Não clique
             try:
-                enter_xpath = '/html/body/div[1]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div/span'
+                enter_xpath = """/html/body/div[1]/div/div/div[2]/div[2]/span/div/span/
+                div/div/div[2]/span/div/div/span"""
                 enterButton = self.driver.find_element_by_xpath(enter_xpath)
                 enterButton.click()
                 time.sleep(2)
