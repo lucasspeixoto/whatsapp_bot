@@ -146,7 +146,7 @@ Para Excluir um anexo clique em 'Apagar'.""",
 
         # Inserir Mensagem
         if text_msg != "":
-            input_xpath = '//*[@id="main"]/footer/div[1]/div[2]/div/div[1]/div/div[2]'
+            input_xpath = "/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/div/div[2]/div[1]/div/div[2]"
             found = self.driver.find_element_by_xpath(input_xpath)
             time.sleep(0.5)
             found.send_keys(text_msg + Keys.ENTER)
@@ -162,16 +162,14 @@ Para Excluir um anexo clique em 'Apagar'.""",
         if img_path != "Nenhuma":
             # Inserir Imagem/Video
             clipButton = self.driver.find_element_by_xpath(
-                """//*[@id="main"]/footer/
-            div[1]/div[1]/div[2]/div/div/span"""
+                """//*[@id="main"]/footer/div[1]/div/div/div[1]/div[2]/div/div/span"""
             )
             clipButton.click()
             time.sleep(1)
 
             mediaButton = self.driver.find_element_by_xpath(
-                """//*[@id="main"]/footer/div[1]/div[1]/
-            div[2]/div/span/div/div/ul/li[1]/button/input"""
-            )
+                """//*[@id="main"]/footer/div[1]/div/div/div[1]/div[2]/div/span/div[1]/div/ul/li[1]/button/input"""
+            ) 
 
             mediaButton.send_keys(self.img_path)
             time.sleep(2)

@@ -370,7 +370,7 @@ def main():
     style.configure('ninth.Treeview', background='#e3d288',
                     foreground='black', font='segoe 9 bold', relief='solid')
 
-    app.title('Whatsapp Bot - v4.0.1')
+    app.title('Whatsapp Bot - v4.0.2')
     current_folder = os.path.dirname(os.path.abspath(__file__)) + '/'
 
     app.wm_attributes('-alpha')
