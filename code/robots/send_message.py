@@ -1,12 +1,11 @@
 # -*- coding: utf_8 -*-
 # encoding: utf-8
 
-import tkinter.messagebox
 import time
+import tkinter.messagebox
 
-from selenium.webdriver.remote.command import Command
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
 
@@ -14,7 +13,7 @@ def send_message(self):
 
     # Verificação Se houve conexão
     try:
-        self.driver.execute(Command.STATUS)
+        self.driver.refresh()
         pass
     except Exception:
         tkinter.messagebox.showerror(
@@ -112,11 +111,13 @@ Para Excluir um anexo clique em 'Apagar'.""",
     self.progress_bar.step(2)
 
     send, notsend = [], []
+    time.sleep(8)
     for contact in contact_list:
         contact = contact.split(" - ")[-1]
 
         # Selecionar Campo de pesquisa de contato
-        search_xpath = '//*[@id="side"]/div[1]/div/label/div/div[2]'
+
+        search_xpath = '//*[@id="side"]/div[1]/div/div/div[2]/div/div[2]'
         elem = self.driver.find_element_by_xpath(search_xpath)
         elem.click()
         elem.clear()
@@ -135,6 +136,7 @@ Para Excluir um anexo clique em 'Apagar'.""",
             not_found_msg_xpath = (
                 "/html/body/div[1]/div/div/div[3]/div/div[2]/div[1]/div/span"
             )
+
             elem = self.driver.find_element_by_xpath(not_found_msg_xpath)
             notsend.append(contact)
             continue
@@ -149,7 +151,7 @@ Para Excluir um anexo clique em 'Apagar'.""",
 
         # Inserir Mensagem
         if text_msg != "":
-            input_xpath = """//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]"""
+            input_xpath = """//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]"""
             found = self.driver.find_element_by_xpath(input_xpath)
             time.sleep(0.5)
             found.send_keys(text_msg + Keys.ENTER)

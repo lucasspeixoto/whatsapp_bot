@@ -1,27 +1,24 @@
 # -*- coding: utf_8 -*-
 #encoding: utf-8
 
-from ttkthemes import themed_tk
+import os
+import sys
+import threading
 import tkinter as tk
-from tkinter import ttk
 import tkinter.font as font
 import tkinter.messagebox
-import threading
-import sys
-
-import os
-import zipfile
 import webbrowser
+import zipfile
+from tkinter import ttk
 
-from PIL import ImageTk, Image
-
-from robots.whatsapp_login import whatsapp_login
-from robots.send_message import send_message
+from PIL import Image, ImageTk
+from ttkthemes import themed_tk
 
 from contacts.load_contacts import load_contacts
-
-from files.load_file import load_img_or_video, load_doc
-from files.clear_path import clear_img_path, clear_file_path
+from files.clear_path import clear_file_path, clear_img_path
+from files.load_file import load_doc, load_img_or_video
+from robots.send_message import send_message
+from robots.whatsapp_login import whatsapp_login
 
 
 class Geral(themed_tk.ThemedTk):
@@ -318,59 +315,8 @@ class Whatsapp(ttk.Frame):
 def main():
 
     app = Geral()
-    style = ttk.Style()
-    style.theme_use('vista')
-    style.configure('.', background='white')
-    style.configure('my.TFrame', background='white',
-                    foreground='black', font='segoe 9 bold')
-    style.configure('TRadiobutton', background='transparent',
-                    foreground='transparent', font='segoe 10 bold', justify='top', side='w')
-    style.configure('login.TButton', background='white',
-                    foreground='black', font='segoe 14 bold')
-    style.configure('TButton', background='white',
-                    foreground='black', font='segoe 11 bold')
-    style.configure('down.TButton', background='white',
-                    foreground='green', font='segoe 18 bold', justify='c')
-    style.configure('ok.TButton', background='white',
-                    foreground='green', font='segoe 16 bold', justify='c')
-    style.configure('nok.TButton', background='white',
-                    foreground='red', font='segoe 16 bold', justify='c')
-    style.configure('Icon.TButton', background='white',
-                    foreground='black', font='segoe 16 bold', justify='c')
-    style.configure('TListbox', selectbackground='#7aad4b', relief='solid',
-                    foreground='#000000', selectmode='extended', font='segoe 10 bold', exportselection=0)
-    style.configure('infP.TFrame', background='#f5eace',
-                    foreground='black', font='segoe 12 bold')
-    style.configure('inf.TLabel', background='#f5eace',
-                    foreground='black', font='segoe 8 bold')
-    style.configure('TEntry', background='white',
-                    foreground='#0000B3', font='segoe 12 bold')
-    style.configure('input.TEntry', background='white',
-                    foreground='#0000B3', font='segoe 10 bold')
-    style.configure('infP.TEntry', background='#f5eace',
-                    foreground='#0000B3', font='segoe 12 bold', justify='top', side='w')
 
-    style.configure('head.Treeview', background='#a0c882', foreground='black')
-    style.configure('first.Treeview', background='#a0c882',
-                    foreground='black', font='segoe 9 bold', relief='solid')
-    style.configure('second.Treeview', background='#b6c5f2',
-                    foreground='black', font='segoe 9 bold', relief='solid')
-    style.configure('third.Treeview', background='#8dddeb',
-                    foreground='black', font='segoe 9 bold', relief='solid')
-    style.configure('fourth.Treeview', background='#eb8d8d',
-                    foreground='black', font='segoe 9 bold', relief='solid')
-    style.configure('fifth.Treeview', background='#b36307',
-                    foreground='black', font='segoe 9 bold', relief='solid')
-    style.configure('sixth.Treeview', background='#e3ab66',
-                    foreground='black', font='segoe 9 bold', relief='solid')
-    style.configure('seventh.Treeview', background='#c94747',
-                    foreground='black', font='segoe 9 bold', relief='solid')
-    style.configure('eighth.Treeview', background='#b4e61d',
-                    foreground='black', font='segoe 9 bold', relief='solid')
-    style.configure('ninth.Treeview', background='#e3d288',
-                    foreground='black', font='segoe 9 bold', relief='solid')
-
-    app.title('Whatsapp Bot - v4.0.2')
+    app.title('Whatsapp Bot - v4.0.4')
     current_folder = os.path.dirname(os.path.abspath(__file__)) + '/'
 
     app.wm_attributes('-alpha')
